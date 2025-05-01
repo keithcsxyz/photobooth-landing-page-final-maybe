@@ -62,6 +62,7 @@ canvas {
 .photo-strip {
     gap: 1px;
     padding: 0;
+    padding-bottom: 30px;
     margin: 0;
 }
 
