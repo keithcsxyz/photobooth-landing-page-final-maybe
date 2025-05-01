@@ -81,11 +81,18 @@ document.addEventListener('DOMContentLoaded', () => {
                     ctx.save();
                     ctx.clearRect(0, 0, canvas.width, canvas.height);
                     
-                    // Flip horizontally to counter the CSS transform
-                    ctx.translate(canvas.width, 0);
-                    ctx.scale(-1, 1);
-                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-                    ctx.restore();
+            // Flip horizontally to counter the CSS transform
+            ctx.translate(canvas.width, 0);
+            ctx.scale(-1, 1);
+
+            // Apply the filter from the video to the canvas context
+            ctx.filter = getComputedStyle(video).filter;
+
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            // Reset filter for safety
+            ctx.filter = 'none';
+            ctx.restore();
                     
                     const photoUrl = canvas.toDataURL('image/png');
                     capturedPhotos.push(photoUrl);
