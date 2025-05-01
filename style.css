@@ -99,18 +99,16 @@ section.active {
 
 
 .intro-gif {
-	margin-top: -130px;
 	margin-bottom: 0;
 	padding-bottom: 0;
-	height: 600px;;
+	margin-top: -90px;
 }
 
 .short-text {
 	margin-top: -180px;
 	padding: 0;
+	font-size: 20px;
 }
-
-
 
 a {
 	text-decoration: none;
