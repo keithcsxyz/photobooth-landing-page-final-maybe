@@ -60,7 +60,8 @@ canvas {
 }
 
 .photo-strip {
-    padding-bottom: 30px;
+    margin-bottom: 30px;
+    padding: 0;
 }
 
 .photo-strip img {
