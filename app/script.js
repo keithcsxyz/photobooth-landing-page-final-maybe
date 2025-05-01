@@ -108,74 +108,85 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function createPhotoStrip() {
-        photoStripContainer.innerHTML = '';
-        photoStripContainer.style.display = 'flex';
+function createPhotoStrip() {
+    photoStripContainer.innerHTML = '';
+    photoStripContainer.style.display = 'flex';
 
-        const stripWidth = 300;
-        const photoHeight = 225;
-        const gap = 5;
-        const sideMargin = 20;
-        const topMargin = 50;
-        const stripHeight = photoHeight * capturedPhotos.length + gap * (capturedPhotos.length - 1) + topMargin;
+    const stripWidth = 300;
+    const photoHeight = 225;
+    const gap = 5;
+    const sideMargin = 20;
+    const topMargin = 50;
+    const bottomMargin = 50; // Added margin for date and watermark
 
-        stripCanvas.width = stripWidth;
-        stripCanvas.height = stripHeight;
+    const stripHeight = photoHeight * capturedPhotos.length
+        + gap * (capturedPhotos.length - 1)
+        + topMargin
+        + bottomMargin;
 
-        stripCtx.fillStyle = selectedFrameColor;
-        stripCtx.fillRect(0, 0, stripWidth, stripHeight);
+    stripCanvas.width = stripWidth;
+    stripCanvas.height = stripHeight;
 
-        stripCtx.fillStyle = '#a5b4fc';
-        stripCtx.fillRect(stripWidth * 0.2, 0, stripWidth * 0.6, 8);
+    // Background fill
+    stripCtx.fillStyle = selectedFrameColor;
+    stripCtx.fillRect(0, 0, stripWidth, stripHeight);
 
-        stripCtx.fillStyle = '#374151';
-        stripCtx.font = 'bold 16px "Segoe UI", Arial, sans-serif';
-        stripCtx.textAlign = 'center';
-        stripCtx.fillText('Photobooth', stripWidth / 2, 30);
+    // Header strip
+    stripCtx.fillStyle = '#a5b4fc';
+    stripCtx.fillRect(stripWidth * 0.2, 0, stripWidth * 0.6, 8);
 
-        const loadPhotoPromises = capturedPhotos.map((photoUrl, index) => {
-            return new Promise((resolve) => {
-                const img = new Image();
-                img.onload = () => {
-                    const y = topMargin + index * (photoHeight + gap);
-                    const aspectRatio = img.width / img.height;
-                    let drawWidth = stripWidth - sideMargin * 2;
-                    let drawHeight = drawWidth / aspectRatio;
+    // Title
+    stripCtx.fillStyle = '#374151';
+    stripCtx.font = 'bold 16px "Segoe UI", Arial, sans-serif';
+    stripCtx.textAlign = 'center';
+    stripCtx.fillText('Photobooth', stripWidth / 2, 30);
 
-                    if (drawHeight > photoHeight) {
-                        drawHeight = photoHeight;
-                        drawWidth = photoHeight * aspectRatio;
-                    }
+    const loadPhotoPromises = capturedPhotos.map((photoUrl, index) => {
+        return new Promise((resolve) => {
+            const img = new Image();
+            img.onload = () => {
+                const y = topMargin + index * (photoHeight + gap);
+                const aspectRatio = img.width / img.height;
+                let drawWidth = stripWidth - sideMargin * 2;
+                let drawHeight = drawWidth / aspectRatio;
 
-                    const xOffset = (stripWidth - drawWidth) / 2;
-                    stripCtx.drawImage(img, xOffset, y, drawWidth, drawHeight);
-                    resolve();
-                };
-                img.src = photoUrl;
-            });
+                if (drawHeight > photoHeight) {
+                    drawHeight = photoHeight;
+                    drawWidth = photoHeight * aspectRatio;
+                }
+
+                const xOffset = (stripWidth - drawWidth) / 2;
+                stripCtx.drawImage(img, xOffset, y, drawWidth, drawHeight);
+                resolve();
+            };
+            img.src = photoUrl;
         });
+    });
 
-        Promise.all(loadPhotoPromises).then(() => {
-            stripCtx.font = '14px "Segoe UI", Arial, sans-serif';
-            stripCtx.fillStyle = '#9CA3AF';
-            stripCtx.textAlign = 'center';
-            stripCtx.fillText("By: KEITH | CAMILLE | JERICHO", stripWidth / 2, stripHeight - 15);
+    Promise.all(loadPhotoPromises).then(() => {
+        // Add watermark and date AFTER loading all images
+        stripCtx.font = '14px "Segoe UI", Arial, sans-serif';
+        stripCtx.fillStyle = '#9CA3AF';
+        stripCtx.textAlign = 'center';
+        stripCtx.fillText("By: KEITH | CAMILLE | JERICHO", stripWidth / 2, stripHeight - 35);
 
-            const date = new Date().toLocaleDateString();
-            stripCtx.fillStyle = '#6b7280';
-            stripCtx.font = '12px "Segoe UI", Arial, sans-serif';
-            stripCtx.fillText(date, stripWidth / 2, stripHeight - 35);
+        const date = new Date().toLocaleDateString();
+        stripCtx.fillStyle = '#6b7280';
+        stripCtx.font = '12px "Segoe UI", Arial, sans-serif';
+        stripCtx.fillText(date, stripWidth / 2, stripHeight - 15);
 
-            const stripUrl = stripCanvas.toDataURL('image/png');
+        const stripUrl = stripCanvas.toDataURL('image/png');
 
-            const photoStrip = document.createElement('div');
-            photoStrip.className = 'photo-strip';
-            photoStrip.innerHTML = `
-                <div class="photo-strip-title">Photobooth Strip</div>
-                <img src="${stripUrl}" alt="Photo Strip">
-                <button id="saveStripBtn" class="btn btn-custom w-100 mt-2">Save Photo Strip</button>
-            `;
-            photoStripContainer.appendChild(photoStrip);
+        const photoStrip = document.createElement('div');
+        photoStrip.className = 'photo-strip';
+        photoStrip.innerHTML = `
+            <div class="photo-strip-title">Photobooth Strip</div>
+            <img src="${stripUrl}" alt="Photo Strip">
+            <button id="saveStripBtn" class="btn btn-custom w-100 mt-2">Save Photo Strip</button>
+        `;
+        photoStripContainer.appendChild(photoStrip);
+    });
+}
 
             const saveStripBtn = document.getElementById('saveStripBtn');
             saveStripBtn.addEventListener('click', () => {
