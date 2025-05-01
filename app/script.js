@@ -165,11 +165,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
         // After all photos are drawn
         Promise.all(loadPhotoPromises).then(() => {
-            // Add watermark at the bottom
-            stripCtx.font = '14px "Segoe UI", Arial, sans-serif';
-            stripCtx.fillStyle = '#9CA3AF';
-            stripCtx.textAlign = 'center';
-            stripCtx.fillText("By: KEITH | CAMILLE | JERICHO", stripWidth / 2, stripHeight - 15);
     
             // Draw date
             const date = new Date().toLocaleDateString();
