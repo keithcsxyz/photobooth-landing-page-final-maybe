@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Set strip dimensions based on number of photos
         const stripWidth = 300; // Total width of the strip
         const photoHeight = 225; // Using 4:3 ratio (300 × 0.75 = 225)
-        const gap = 1; // Set a small gap (e.g., 5px) between photos
+        const gap = 5; // Set a small gap (e.g., 5px) between photos
         const sideMargin = 20; // Space on the left and right of each photo
         const topMargin = 50; // Space at the top of the strip
         const stripHeight = photoHeight * capturedPhotos.length + gap * (capturedPhotos.length - 1) + topMargin;
