@@ -60,14 +60,15 @@ canvas {
 }
 
 .photo-strip {
-    margin-bottom: 30px;
-    padding: 0;
-}
-
-.photo-strip img {
-    margin: 0;
-    padding: 0;
-}
+     gap: 5px;
+     padding: 0;
+     margin: 0;
+ }
+ 
+ .photo-strip img {
+     margin: 0;
+     padding: 0;
+ }
 
 .control-panel {
     margin-top: 20px;
