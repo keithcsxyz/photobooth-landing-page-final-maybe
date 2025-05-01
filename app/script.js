@@ -61,46 +61,67 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Take picture with countdown
-    function takePicture() {
-        return new Promise((resolve) => {
-            let count = 3;
-            const timer = document.getElementById('timer');
-            timer.textContent = count;
-            timer.style.display = 'flex';
+function takePicture() {
+    return new Promise((resolve) => {
+        let count = 3;
+        const timer = document.getElementById('timer');
+        timer.textContent = count;
+        timer.style.display = 'flex';
 
-            const countdown = setInterval(() => {
-                count--;
-                if (count > 0) {
-                    timer.textContent = count;
-                } else {
-                    clearInterval(countdown);
-                    timer.style.display = 'none';
+        const countdown = setInterval(() => {
+            count--;
+            if (count > 0) {
+                timer.textContent = count;
+            } else {
+                clearInterval(countdown);
+                timer.style.display = 'none';
 
-                    // Correct the mirroring effect in the captured photo
-                    ctx.save();
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    
-            // Flip horizontally to counter the CSS transform
-            ctx.translate(canvas.width, 0);
-            ctx.scale(-1, 1);
+                ctx.save();
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // Apply the filter from the video to the canvas context
-            ctx.filter = getComputedStyle(video).filter;
+                // Get the actual visible dimensions of the video element
+                const videoDisplayWidth = video.clientWidth;
+                const videoDisplayHeight = video.clientHeight;
+                const videoStreamWidth = video.videoWidth;
+                const videoStreamHeight = video.videoHeight;
 
-            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                // Calculate scale ratios
+                const widthRatio = videoStreamWidth / videoDisplayWidth;
+                const heightRatio = videoStreamHeight / videoDisplayHeight;
 
-            // Reset filter for safety
-            ctx.filter = 'none';
-            ctx.restore();
-                    
-                    const photoUrl = canvas.toDataURL('image/png');
-                    capturedPhotos.push(photoUrl);
-                    resolve();
-                }
-            }, 1000);
-        });
-    }
+                // Get the canvas dimensions from the visible video
+                const canvasWidth = canvas.width;
+                const canvasHeight = canvas.height;
+
+                // Compute cropping dimensions (based on center crop)
+                const cropWidth = videoStreamWidth;
+                const cropHeight = videoStreamWidth * (canvasHeight / canvasWidth);
+
+                const sx = 0;
+                const sy = (videoStreamHeight - cropHeight) / 2;
+
+                ctx.filter = video.style.filter;
+
+                // Flip horizontally
+                ctx.translate(canvas.width, 0);
+                ctx.scale(-1, 1);
+
+                ctx.drawImage(
+                    video,
+                    sx, sy, cropWidth, cropHeight, // source (crop) rectangle
+                    0, 0, canvas.width, canvas.height // destination on canvas
+                );
+
+                ctx.filter = 'none';
+                ctx.restore();
+
+                const photoUrl = canvas.toDataURL('image/png');
+                capturedPhotos.push(photoUrl);
+                resolve();
+            }
+        }, 1000);
+    });
+}
 
     // Create photo strip from captured photos
     function createPhotoStrip() {
