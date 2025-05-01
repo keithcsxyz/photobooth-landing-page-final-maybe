@@ -7,17 +7,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const photoCountSelect = document.getElementById('photoCount');
     const photoStripContainer = document.getElementById('photoStripContainer');
     const colorOptions = document.querySelectorAll('.color-option');
-    const filterSelect = document.getElementById('filterSelect');
     const stripCtx = stripCanvas.getContext('2d');
     const ctx = canvas.getContext('2d');
-    const timer = document.getElementById('timer');
-
+    
     let photosTaken = 0;
     let photosToTake = 1;
     let capturedPhotos = [];
-    let selectedFrameColor = '#f5f7fa';
+    let selectedFrameColor = '#f5f7fa'; // Default frame background color
 
-    // Color selection
+    // Handle color selection for the photo booth frame
     colorOptions.forEach(option => {
         option.addEventListener('click', () => {
             colorOptions.forEach(o => o.classList.remove('selected'));
@@ -26,39 +24,48 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Filter selection
-    filterSelect.addEventListener('change', (e) => {
-        video.style.filter = e.target.value;
-    });
-
-    // Init camera
+    // Initialize camera
     async function initCamera() {
         try {
-            const stream = await navigator.mediaDevices.getUserMedia({
+            const constraints = {
                 video: {
-                    facingMode: { ideal: 'user' },
+                    facingMode: { ideal: 'user' }, // Front-facing camera
                     width: { ideal: 1280 },
                     height: { ideal: 720 }
                 },
                 audio: false
-            });
+            };
 
+            // Attempt to access the camera
+            const stream = await navigator.mediaDevices.getUserMedia(constraints);
             video.srcObject = stream;
 
+            // Set canvas dimensions once video metadata is loaded
             video.onloadedmetadata = () => {
-                video.play();
                 canvas.width = video.videoWidth;
                 canvas.height = video.videoHeight;
             };
         } catch (err) {
-            console.error("Camera error:", err);
-            alert("Camera access failed: " + err.message);
+            console.error("Error accessing camera:", err);
+
+            // Fallback for unsupported constraints
+            if (err.name === "OverconstrainedError") {
+                alert("The requested camera settings are not supported by your device.");
+            } else if (err.name === "NotAllowedError") {
+                alert("Camera access was denied. Please allow camera permissions.");
+            } else if (err.name === "NotFoundError") {
+                alert("No camera found on this device.");
+            } else {
+                alert("An unexpected error occurred while accessing the camera.");
+            }
         }
     }
 
+    // Take picture with countdown
     function takePicture() {
         return new Promise((resolve) => {
             let count = 3;
+            const timer = document.getElementById('timer');
             timer.textContent = count;
             timer.style.display = 'flex';
 
@@ -70,36 +77,23 @@ document.addEventListener('DOMContentLoaded', () => {
                     clearInterval(countdown);
                     timer.style.display = 'none';
 
-                    // Mobile fix: crop based on visible part
-                    const vw = video.videoWidth;
-                    const vh = video.videoHeight;
-                    const displayW = video.clientWidth;
-                    const displayH = video.clientHeight;
-
-                    // Aspect ratio of video element vs stream
-                    const aspectRatioDisplay = displayW / displayH;
-                    const aspectRatioStream = vw / vh;
-
-                    let sx = 0, sy = 0, sWidth = vw, sHeight = vh;
-
-                    if (aspectRatioStream > aspectRatioDisplay) {
-                        // Crop width
-                        sWidth = vh * aspectRatioDisplay;
-                        sx = (vw - sWidth) / 2;
-                    } else {
-                        // Crop height
-                        sHeight = vw / aspectRatioDisplay;
-                        sy = (vh - sHeight) / 2;
-                    }
-
+                    // Correct the mirroring effect in the captured photo
                     ctx.save();
                     ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    ctx.translate(canvas.width, 0);
-                    ctx.scale(-1, 1);
-                    ctx.filter = filterSelect.value;
-                    ctx.drawImage(video, sx, sy, sWidth, sHeight, 0, 0, canvas.width, canvas.height);
-                    ctx.restore();
+                    
+            // Flip horizontally to counter the CSS transform
+            ctx.translate(canvas.width, 0);
+            ctx.scale(-1, 1);
 
+            // Apply the filter from the video to the canvas context
+            ctx.filter = getComputedStyle(video).filter;
+
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            // Reset filter for safety
+            ctx.filter = 'none';
+            ctx.restore();
+                    
                     const photoUrl = canvas.toDataURL('image/png');
                     capturedPhotos.push(photoUrl);
                     resolve();
@@ -108,92 +102,95 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-function createPhotoStrip() {
-    photoStripContainer.innerHTML = '';
-    photoStripContainer.style.display = 'flex';
-
-    const stripWidth = 300;
-    const photoHeight = 225;
-    const gap = 5;
-    const sideMargin = 20;
-    const topMargin = 50;
-    const textSpacing = 40; // Space for date and watermark text
-    const bottomMargin = 20;
-
-    const stripHeight =
-        photoHeight * capturedPhotos.length +
-        gap * (capturedPhotos.length - 1) +
-        topMargin +
-        textSpacing +
-        bottomMargin;
-
-    stripCanvas.width = stripWidth;
-    stripCanvas.height = stripHeight;
-
-    // Background
-    stripCtx.fillStyle = selectedFrameColor;
-    stripCtx.fillRect(0, 0, stripWidth, stripHeight);
-
-    // Top bar design
-    stripCtx.fillStyle = '#a5b4fc';
-    stripCtx.fillRect(stripWidth * 0.2, 0, stripWidth * 0.6, 8);
-
-    // Title text
-    stripCtx.fillStyle = '#374151';
-    stripCtx.font = 'bold 16px "Segoe UI", Arial, sans-serif';
-    stripCtx.textAlign = 'center';
-    stripCtx.fillText('Photobooth', stripWidth / 2, 30);
-
-    const loadPhotoPromises = capturedPhotos.map((photoUrl, index) => {
-        return new Promise((resolve) => {
-            const img = new Image();
-            img.onload = () => {
-                const y = topMargin + index * (photoHeight + gap);
-                const aspectRatio = img.width / img.height;
-                let drawWidth = stripWidth - sideMargin * 2;
-                let drawHeight = drawWidth / aspectRatio;
-
-                if (drawHeight > photoHeight) {
-                    drawHeight = photoHeight;
-                    drawWidth = photoHeight * aspectRatio;
-                }
-
-                const xOffset = (stripWidth - drawWidth) / 2;
-                stripCtx.drawImage(img, xOffset, y, drawWidth, drawHeight);
-                resolve();
-            };
-            img.src = photoUrl;
-        });
-    });
-
-    Promise.all(loadPhotoPromises).then(() => {
-        // Date and watermark
-        const watermarkY = stripHeight - 30;
-        const dateY = stripHeight - 10;
-
-        stripCtx.font = '14px "Segoe UI", Arial, sans-serif';
-        stripCtx.fillStyle = '#9CA3AF';
+    // Create photo strip from captured photos
+    function createPhotoStrip() {
+        // Clear previous photo strips
+        photoStripContainer.innerHTML = '';
+        photoStripContainer.style.display = 'flex';
+    
+        // Set strip dimensions based on number of photos
+        const stripWidth = 300; // Total width of the strip
+        const photoHeight = 225; // Using 4:3 ratio (300 × 0.75 = 225)
+        const gap = 1; // Set a small gap (e.g., 5px) between photos
+        const sideMargin = 20; // Space on the left and right of each photo
+        const topMargin = 50; // Space at the top of the strip
+        const stripHeight = photoHeight * capturedPhotos.length + gap * (capturedPhotos.length - 1) + topMargin;
+    
+        // Set canvas size
+        stripCanvas.width = stripWidth;
+        stripCanvas.height = stripHeight;
+    
+        // Draw the selected background color
+        stripCtx.fillStyle = selectedFrameColor;
+        stripCtx.fillRect(0, 0, stripWidth, stripHeight);
+    
+        // Draw header
+        const gradientHeight = 8;
+        stripCtx.fillStyle = '#a5b4fc';
+        stripCtx.fillRect(stripWidth * 0.2, 0, stripWidth * 0.6, gradientHeight);
+    
+        // Draw title
+        stripCtx.fillStyle = '#374151';
+        stripCtx.font = 'bold 16px "Segoe UI", Arial, sans-serif';
         stripCtx.textAlign = 'center';
-        stripCtx.fillText("By: KEITH | CAMILLE | JERICHO", stripWidth / 2, watermarkY);
-
-        const date = new Date().toLocaleDateString();
-        stripCtx.fillStyle = '#6b7280';
-        stripCtx.font = '12px "Segoe UI", Arial, sans-serif';
-        stripCtx.fillText(date, stripWidth / 2, dateY);
-
-        const stripUrl = stripCanvas.toDataURL('image/png');
-
-        const photoStrip = document.createElement('div');
-        photoStrip.className = 'photo-strip';
-        photoStrip.innerHTML = `
-            <div class="photo-strip-title">Photobooth Strip</div>
-            <img src="${stripUrl}" alt="Photo Strip">
-            <button id="saveStripBtn" class="btn btn-custom w-100 mt-2">Save Photo Strip</button>
-        `;
-        photoStripContainer.appendChild(photoStrip);
-    });
-}
-
+        stripCtx.fillText('Photobooth', stripWidth / 2, 30);
+    
+        // Load and draw each photo
+        const loadPhotoPromises = capturedPhotos.map((photoUrl, index) => {
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.onload = () => {
+                    const y = topMargin + index * (photoHeight + gap); // Add top margin for the first image and gap for subsequent images
+                    
+                    // Maintain aspect ratio when drawing the image
+                    const aspectRatio = img.width / img.height;
+                    let drawWidth = stripWidth - sideMargin * 2; // Reduce width for side margins
+                    let drawHeight = drawWidth / aspectRatio;
+                    
+                    // If the height is too tall, constrain to photoHeight
+                    if (drawHeight > photoHeight) {
+                        drawHeight = photoHeight;
+                        drawWidth = photoHeight * aspectRatio;
+                    }
+                    
+                    // Center the image horizontally with side margins
+                    const xOffset = (stripWidth - drawWidth) / 2;
+                    stripCtx.drawImage(img, xOffset, y, drawWidth, drawHeight);
+                    
+                    resolve();
+                };
+                img.src = photoUrl;
+            });
+        });
+    
+        // After all photos are drawn
+        Promise.all(loadPhotoPromises).then(() => {
+            // Add watermark at the bottom
+            stripCtx.font = '14px "Segoe UI", Arial, sans-serif';
+            stripCtx.fillStyle = '#9CA3AF';
+            stripCtx.textAlign = 'center';
+            stripCtx.fillText("By: KEITH | CAMILLE | JERICHO", stripWidth / 2, stripHeight - 15);
+    
+            // Draw date
+            const date = new Date().toLocaleDateString();
+            stripCtx.fillStyle = '#6b7280';
+            stripCtx.font = '12px "Segoe UI", Arial, sans-serif';
+            stripCtx.fillText(date, stripWidth / 2, stripHeight - 35);
+    
+            // Create final strip image
+            const stripUrl = stripCanvas.toDataURL('image/png');
+    
+            // Create photo strip element
+            const photoStrip = document.createElement('div');
+            photoStrip.className = 'photo-strip';
+            photoStrip.innerHTML = `
+                <div class="photo-strip-title">Photobooth Strip</div>
+                <img src="${stripUrl}" alt="Photo Strip">
+                <button id="saveStripBtn" class="btn btn-custom w-100 mt-2">Save Photo Strip</button>
+            `;
+            photoStripContainer.appendChild(photoStrip);
+    
+            // Add save functionality
             const saveStripBtn = document.getElementById('saveStripBtn');
             saveStripBtn.addEventListener('click', () => {
                 const link = document.createElement('a');
@@ -204,6 +201,7 @@ function createPhotoStrip() {
         });
     }
 
+    // Start photo session
     async function startPhotoSession() {
         photosTaken = 0;
         photosToTake = parseInt(photoCountSelect.value);
@@ -214,22 +212,63 @@ function createPhotoStrip() {
         while (photosTaken < photosToTake) {
             await takePicture();
             photosTaken++;
+
+            // Add small delay between photos
             if (photosTaken < photosToTake) {
                 await new Promise(resolve => setTimeout(resolve, 1000));
             }
         }
 
+        // Create photo strip once all photos are taken
         createPhotoStrip();
         startButton.disabled = false;
     }
 
+    // Clear all photos
     function clearPhotos() {
         capturedPhotos = [];
         photoStripContainer.innerHTML = '';
         photoStripContainer.style.display = 'none';
     }
 
+    // Event listeners
     startButton.addEventListener('click', startPhotoSession);
     clearButton.addEventListener('click', clearPhotos);
+
+    // Initialize camera on page load
     initCamera();
+});
+
+
+
+// Get references to the video and filter dropdown
+const video = document.getElementById('video');
+const filterSelect = document.getElementById('filterSelect');
+
+// Apply the selected filter to the video
+filterSelect.addEventListener('change', (event) => {
+    const selectedFilter = event.target.value;
+    video.style.filter = selectedFilter; // Apply the filter to the video element
+});
+
+// Ensure the filter is applied to the captured photo
+const canvas = document.getElementById('canvas');
+const startButton = document.getElementById('startButton');
+
+startButton.addEventListener('click', () => {
+    const context = canvas.getContext('2d');
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+
+    // Apply the filter to the canvas before drawing the video frame
+    context.filter = video.style.filter;
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    // Display the captured photo (you can customize this part)
+    const photoStripContainer = document.getElementById('photoStripContainer');
+    const img = document.createElement('img');
+    img.src = canvas.toDataURL('image/png');
+    img.classList.add('photo-strip');
+    photoStripContainer.appendChild(img);
+    photoStripContainer.style.display = 'flex';
 });
