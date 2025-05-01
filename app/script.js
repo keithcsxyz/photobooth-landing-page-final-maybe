@@ -117,25 +117,28 @@ function createPhotoStrip() {
     const gap = 5;
     const sideMargin = 20;
     const topMargin = 50;
-    const bottomMargin = 50; // Added margin for date and watermark
+    const textSpacing = 40; // Space for date and watermark text
+    const bottomMargin = 20;
 
-    const stripHeight = photoHeight * capturedPhotos.length
-        + gap * (capturedPhotos.length - 1)
-        + topMargin
-        + bottomMargin;
+    const stripHeight =
+        photoHeight * capturedPhotos.length +
+        gap * (capturedPhotos.length - 1) +
+        topMargin +
+        textSpacing +
+        bottomMargin;
 
     stripCanvas.width = stripWidth;
     stripCanvas.height = stripHeight;
 
-    // Background fill
+    // Background
     stripCtx.fillStyle = selectedFrameColor;
     stripCtx.fillRect(0, 0, stripWidth, stripHeight);
 
-    // Header strip
+    // Top bar design
     stripCtx.fillStyle = '#a5b4fc';
     stripCtx.fillRect(stripWidth * 0.2, 0, stripWidth * 0.6, 8);
 
-    // Title
+    // Title text
     stripCtx.fillStyle = '#374151';
     stripCtx.font = 'bold 16px "Segoe UI", Arial, sans-serif';
     stripCtx.textAlign = 'center';
@@ -164,16 +167,19 @@ function createPhotoStrip() {
     });
 
     Promise.all(loadPhotoPromises).then(() => {
-        // Add watermark and date AFTER loading all images
+        // Date and watermark
+        const watermarkY = stripHeight - 30;
+        const dateY = stripHeight - 10;
+
         stripCtx.font = '14px "Segoe UI", Arial, sans-serif';
         stripCtx.fillStyle = '#9CA3AF';
         stripCtx.textAlign = 'center';
-        stripCtx.fillText("By: KEITH | CAMILLE | JERICHO", stripWidth / 2, stripHeight - 35);
+        stripCtx.fillText("By: KEITH | CAMILLE | JERICHO", stripWidth / 2, watermarkY);
 
         const date = new Date().toLocaleDateString();
         stripCtx.fillStyle = '#6b7280';
         stripCtx.font = '12px "Segoe UI", Arial, sans-serif';
-        stripCtx.fillText(date, stripWidth / 2, stripHeight - 15);
+        stripCtx.fillText(date, stripWidth / 2, dateY);
 
         const stripUrl = stripCanvas.toDataURL('image/png');
 
