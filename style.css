@@ -1,0 +1,180 @@
+/*declaration of fonts*/
+@font-face {
+	font-family: 'MyCursiveFont';
+	src: url('fonts/CedarvilleCursive-Regular.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+  }
+
+@font-face {
+	font-family: 'DancingScript';
+	src: url('fonts/DancingScript-Regular.ttf') format('truetype');
+}
+
+body {
+	background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+	background-size: 400% 400%;
+	animation: gradient 15s ease infinite;
+	height: 100vh;
+	color: white;
+	font-family: 'DancingScript', cursive;
+	font-size: 15px;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+.navbar-brand {
+	font-family: "Brush Script MT", cursive;
+}
+
+.navbar .nav-link {
+    color: white !important; /* Set the text color to white */
+    transition: color 0.3s ease; /* Add a smooth transition for hover effects */
+	cursor: pointer;
+	font-size: 25px;
+}
+
+.navbar .nav-link:hover {
+    color: #f0abfc !important; /* Optional: Add a hover effect (e.g., light purple) */
+}
+
+.team-member {
+  text-align: center;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeUp 1.5s ease-out forwards;
+}
+
+
+.team-member:nth-child(1) {
+	animation-delay: 0.3s;
+  }
+  .team-member:nth-child(2) {
+	animation-delay: 0.6s;
+  }
+  .team-member:nth-child(3) {
+	animation-delay: 0.9s;
+  }
+  
+  @keyframes fadeUp {
+	to {
+	  opacity: 1;
+	  transform: translateY(0);
+	}
+  }
+
+
+.team-member img {
+  width: 250px;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 10px;
+  box-shadow: -20px 10px 55px rgba(0, 0, 0, 0.9);
+}
+section {
+  display: none;
+}
+section.active {
+  display: block;
+}
+.navbar-toggler {
+	background-color: white;
+}
+
+.cameraa {
+	margin-top: 80px;
+	height: 250px;
+}
+
+
+.intro-gif {
+	margin-top: -130px;
+	margin-bottom: 0;
+	padding-bottom: 0;
+	height: 600px;;
+}
+
+.short-text {
+	margin-top: -180px;
+	padding: 0;
+}
+
+
+
+a {
+	text-decoration: none;
+  }
+
+  .papel-sa-mundo {
+	font-size: 13px;
+	margin-top: -15px;
+  }
+
+
+/* From Uiverse.io by adamgiebl */ 
+.cssbuttons-io-button {
+	background: black;
+	color: white;
+	font-family: inherit;
+	padding: 0.35em;
+	padding-left: 1.2em;
+	font-size: 17px;
+	font-weight: 500;
+	border-radius: 0.9em;
+	border: none;
+	letter-spacing: 0.05em;
+	display: flex;
+	align-items: center;
+	box-shadow: inset 0 0 1.6em -0.6em #714da6;
+	overflow: hidden;
+	position: relative;
+	height: 2.8em;
+	padding-right: 3.3em;
+	cursor: pointer;
+  }
+  
+  .cssbuttons-io-button .icon {
+	background: rgb(219, 119, 207);
+	margin-left: 1em;
+	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 2.2em;
+	width: 2.2em;
+	border-radius: 0.7em;
+	box-shadow: 0.1em 0.1em 0.6em 0.2em #7b52b9;
+	right: 0.3em;
+	transition: all 0.3s;
+  }
+  
+  .cssbuttons-io-button:hover .icon {
+	width: calc(100% - 0.6em);
+  }
+  
+  .cssbuttons-io-button .icon svg {
+	width: 1.1em;
+	transition: transform 0.3s;
+	color: #7b52b9;
+  }
+  
+  .cssbuttons-io-button:hover .icon svg {
+	transform: translateX(0.1em);
+  }
+  
+  .cssbuttons-io-button:active .icon {
+	transform: scale(0.95);
+  }
+  
+

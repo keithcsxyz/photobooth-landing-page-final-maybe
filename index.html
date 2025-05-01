@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Photobooth App</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-dark shadow-sm fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#" style="color: white; font-family: 'MyCursiveFont', cursive;">Case.Study</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item me-4"><a class="nav-link active" data-target="home">Home</a></li>
+          <li class="nav-item me-4"><a class="nav-link" data-target="aboutUs">About</a></li>
+          <li class="nav-item me-4"><a class="nav-link" data-target="contactUs">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+<main class="flex-grow-1">
+  <!-- Home Section -->
+ <section id="home" class="active text-center mb-3 mt-5">
+  <div class="container">
+    <div class="row align-items-center">
+      <!-- Left Column: Camera Animation -->
+      <div class="col-md-6">
+        <img class="cameraa" src="./imgs/camera-animation.gif" alt="Camera Animation" class="img-fluid">
+      </div>
+      <!-- Right Column: Welcome Text -->
+      <div class="col-md-6 d-flex flex-column justify-content-center align-items-center text-center">
+        
+        <img class="intro-gif" src="./design/welcome.gif" alt="welcome text">
+
+          <p class="lead mb-4 short-text">Capture memories effortlessly with our user-friendly photobooth app. Snap, smile, and share!</p>
+      
+          <a href="../app/index.html" target="_blank">
+          <button class="cssbuttons-io-button kodak-na-btn">
+              KODAK NA!
+              <div class="icon">
+              <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M0 0h24v24H0z" fill="none"></path>
+                  <path
+                  d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z"
+                  fill="currentColor"
+                  ></path>
+              </svg>
+              </div>
+          </button>
+          </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- About Us Section -->
+<section id="aboutUs" class="container py-5">
+  <h1 class="text-center mb-4 mt-5" style="font-size: 50px;">About Us</h1>
+  <p class="text-center" style="font-size: 20px; margin-top: -20px;">We are a team of passionate developers working on this case study project:</p>
+  <div class="row justify-content-center mt-4">
+    <div class="col-md-3 team-member">
+      <img class="team-mate-pic" src="./imgs/keith.png" alt="picture ni keith" />
+      <p>KEITH RENZ D. ROMBLON</p>
+      <p class="papel-sa-mundo">Developer</p>
+    </div>
+    <div class="col-md-3 team-member">
+      <img class="team-mate-pic" src="./imgs/jericho.png" alt="picture ni jericho" />
+      <p>JERICHO GABRIEL P. TEQUILLO</p>
+      <p class="papel-sa-mundo">Documentation Manager</p>
+    </div>
+    <div class="col-md-3 team-member">
+      <img class="team-mate-pic" src="./imgs/camille.png" alt="picture ni camille" />
+      <p>CAMILLE R. RAMILO </p>
+      <p class="papel-sa-mundo">UI/UX Designer</p>
+    </div>
+  </div>
+</section>
+
+<!-- Contact Us Section -->
+<section id="contactUs" class="container py-5">
+  <h1 class="text-center mb-4 mt-5">Contact</h1>
+  <p class="text-center">For inquiries, feedback, or collaborations, feel free to reach out to us at <strong>14keithcs@gmail.com</strong>.</p>
+</section>
+</main>
+
+
+  
+  <footer class="text-center py-4 text-white mt-auto">
+    <p>&copy; 2025 Case Study. All rights reserved.</p>
+  </footer>
+
+  <!-- Bootstrap JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="script.js"></script>
+
+</body>
+</html>
