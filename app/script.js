@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const stripWidth = 300;
         const photoHeight = 225;
-        const gap = 1;
+        const gap = 5;
         const sideMargin = 20;
         const topMargin = 50;
         const stripHeight = photoHeight * capturedPhotos.length + gap * (capturedPhotos.length - 1) + topMargin;
