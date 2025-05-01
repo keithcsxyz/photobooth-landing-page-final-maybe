@@ -163,5 +163,20 @@ a {
   .cssbuttons-io-button:active .icon {
 	transform: scale(0.95);
   }
+		
+		
+		
+/* Smooth slide-down/up animation for the collapse menu */
+.collapse:not(.show) {
+  display: block;
+  height: 0;
+  overflow: hidden;
+  transition: height 0.3s ease;
+}
+
+.collapse.show {
+  height: auto;
+  transition: height 0.3s ease;
+}
   
 
