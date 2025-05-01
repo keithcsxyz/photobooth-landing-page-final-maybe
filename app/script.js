@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     ctx.clearRect(0, 0, canvas.width, canvas.height);
                     ctx.translate(canvas.width, 0);
                     ctx.scale(-1, 1);
-                    ctx.filter = getComputedStyle(video).filter;
+                    ctx.filter = filterSelect.value;
                     ctx.drawImage(video, sx, sy, sWidth, sHeight, 0, 0, canvas.width, canvas.height);
                     ctx.restore();
 
