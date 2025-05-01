@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photobooth</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container py-4">
+        <div class="text-center mb-4">
+            <h1 class="display-4 fw-bold" style="background: linear-gradient(90deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Photobooth</h1>
+        </div>
+        
+        <div class="photo-container">
+            <div class="booth">
+                <div class="booth-inner">
+                    <video id="video" autoplay></video>
+                    <canvas id="canvas" class="hidden-canvas"></canvas>
+                    <div id="timer" class="timer-popup" style="display: none;">3</div>
+                </div>
+            </div>
+            
+            <div class="control-panel">
+                <div class="row align-items-center mb-3">
+                    <div class="col-md-6 mb-3 mb-md-0">
+                        <div class="d-flex align-items-center">
+                            <label for="photoCount" class="me-2">Number of photos:</label>
+                            <select id="photoCount" class="form-select w-auto">
+                                <option value="1">1 photo</option>
+                                <option value="2">2 photos</option>
+                                <option value="3">3 photos</option>
+                                <option value="4">4 photos</option>
+                                <option value="5">5 photos</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="d-flex justify-content-md-end">
+                            <button id="startButton" class="btn btn-custom me-2">
+                                <i class="bi bi-camera"></i> Take Photos
+                            </button>
+                            <button id="clearButton" class="btn btn-outline-secondary">
+                                Clear All
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Background Color Selection for Photo Booth Frame -->
+                <div class="color-options">
+                    <label class="mb-2">Choose photo frame background color:</label>
+                    <div class="color-palette">
+                        <div class="color-option" data-color="#f5f7fa" style="background-color: #f5f7fa;"></div>
+                        <div class="color-option" data-color="#000000" style="background-color: #000000;"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="photoStripContainer" class="d-flex justify-content-center mt-4" style="display: none !important;"></div>
+            
+            <div class="filter-options mt-3">
+                <label for="filterSelect" class="me-2">Choose a filter:</label>
+                <select id="filterSelect" class="form-select w-auto">
+                    <option value="none">None</option>
+                    <option value="grayscale(100%)">Grayscale</option>
+                    <option value="sepia(100%)">Sepia</option>
+                    <option value="blur(5px)">Blur</option>
+                    <option value="brightness(150%)">Brightness</option>
+                    <option value="contrast(200%)">Contrast</option>
+                </select>
+            </div>
+
+            <!-- Hidden canvas for creating the photo strip -->
+            <canvas id="stripCanvas" class="hidden-canvas"></canvas>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
