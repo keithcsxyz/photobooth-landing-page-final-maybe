@@ -1,4 +1,15 @@
+/*declaration of fonts*/
+@font-face {
+	font-family: 'MyCursiveFont';
+	src: url('fonts/CedarvilleCursive-Regular.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+  }
 
+@font-face {
+	font-family: 'DancingScript';
+	src: url('fonts/DancingScript-Regular.ttf') format('truetype');
+}
 
 body {
 	background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
@@ -6,7 +17,7 @@ body {
 	animation: gradient 15s ease infinite;
 	height: 100vh;
 	color: white;
-	font-family: 'Single Day', cursive;
+	font-family: 'DancingScript', cursive;
 	font-size: 15px;
 }
 
@@ -44,6 +55,12 @@ body {
   animation: fadeUp 1.5s ease-out forwards;
 }
 
+.team-member:hover {
+	transform: translateY(-10px);
+	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+	border-radius: 5%;
+  }
+
 
 .team-member:nth-child(1) {
 	animation-delay: 0.3s;
@@ -70,7 +87,44 @@ body {
   border-radius: 50%;
   margin-bottom: 10px;
   box-shadow: -20px 10px 55px rgba(0, 0, 0, 0.9);
+  transition: transform 0.3s ease;
 }
+
+.team-member img:hover {
+  transform: scale(1.05);
+  box-shadow: -20px 10px 55px rgba(0, 0, 0, 0.9);
+}
+
+.about-description {
+	font-size: 18px;
+	line-height: 1.6;
+	text-align: center;
+	color: #f9fafb;
+	margin-bottom: 15px;
+	opacity: 0;
+	transform: translateY(30px);
+	animation: fadeUp 1s ease-out forwards;
+	animation-delay: 0.3s;
+	transition: all 0.3s ease;
+  }
+  
+  .about-description:nth-child(1) {
+	animation-delay: 0.3s;
+  }
+  .about-description:nth-child(2) {
+	animation-delay: 0.6s;
+  }
+  .about-description:nth-child(3) {
+	animation-delay: 0.9s;
+  }
+  
+  @keyframes fadeUp {
+	to {
+	  opacity: 1;
+	  transform: translateY(0);
+	}
+  }
+
 section {
   display: none;
 }
@@ -103,10 +157,16 @@ a {
 	text-decoration: none;
   }
 
-  .papel-sa-mundo {
+
+.pangaran {
+	font-size: 16px;
+}
+
+.papel-sa-mundo {
 	font-size: 13px;
 	margin-top: -15px;
-  }
+	font-style: italic;
+}
 
 
 /* From Uiverse.io by adamgiebl */ 
@@ -163,20 +223,5 @@ a {
   .cssbuttons-io-button:active .icon {
 	transform: scale(0.95);
   }
-		
-		
-		
-/* Smooth slide-down/up animation for the collapse menu */
-.collapse:not(.show) {
-  display: block;
-  height: 0;
-  overflow: hidden;
-  transition: height 0.3s ease;
-}
-
-.collapse.show {
-  height: auto;
-  transition: height 0.3s ease;
-}
   
 
