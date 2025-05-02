@@ -1,4 +1,13 @@
+/*declaration font style for qwhole body*/
+@font-face {
+	font-family: 'Single Day';
+	src: url('../fonts/SingleDay-Regular.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+  }
+
 :root {
+    --main-font: 'Single Day', cursive;
     --primary: #a5b4fc;
     --secondary: #f0abfc;
     --light: #f9fafb;
@@ -6,8 +15,11 @@
     --accent: #e879f9;
 }
 
+* {
+    font-family: var(--main-font);
+}
+
 body {
-    font-family: 'Single Day', cursive;
     background: linear-gradient(135deg, #F8F9FA, #DDEBE1, #E3EDF7, #F3EDE2 100%);
     background-size: 400% 400%; /* Increase the size of the gradient */
     min-height: 100vh;
