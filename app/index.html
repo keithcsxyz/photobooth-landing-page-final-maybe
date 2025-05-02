@@ -40,15 +40,9 @@
                     <div class="col-md-6">
                         <div class="d-flex justify-content-md-end">
                             
-                            <button class="btn btn-custom me-2 rounded-circle" 
-        style="width: 32px; height: 32px; font-weight: bold; padding: 0;"
-        data-bs-toggle="modal" data-bs-target="#howToUseModal"
-        title="How to Use">
-  ?
-</button>
+                            <button class="btn btn-custom me-2 rounded-circle" style="width: 32px; height: 32px; font-weight: bold; padding: 0;" data-bs-toggle="modal" data-bs-target="#howToUseModal" title="How to Use">?</button>
 
-                              
-
+                            
                             <button id="startButton" class="btn btn-custom me-2">
                                 <i class="bi bi-camera"></i> Take Photos
                             </button>
@@ -77,22 +71,25 @@
                         <div class="color-option" data-color="#ede6db" style="background-color: #ede6db;"></div>
                     </div>
                 </div>
-                <br>
-                <h5 class="mb-3 fw-semibold text-primary">🎨 Photo Filter</h5>
-                <div class="d-flex align-items-center">
-                    <label for="filterSelect" class="form-label me-3 mb-0">Choose a filter:</label>
-                    <select id="filterSelect" class="form-select w-auto">
-                        <option value="none">None</option>
-                        <option value="grayscale(100%)">Grayscale</option>
-                        <option value="sepia(100%)">Sepia</option>
-                        <option value="blur(5px)">Blur</option>
-                        <option value="brightness(150%)">Brightness</option>
-                        <option value="contrast(200%)">Contrast</option>
-                    </select>
+                <div class="filter-options mt-4 p-3 rounded shadow-sm bg-light border">
+                    <h5 class="mb-3 fw-semibold text-primary">🎨 Photo Filter</h5>
+                    <div class="d-flex align-items-center">
+                        <label for="filterSelect" class="form-label me-3 mb-0">Choose a filter:</label>
+                        <select id="filterSelect" class="form-select w-auto">
+                            <option value="none">None</option>
+                            <option value="grayscale(100%)">Grayscale</option>
+                            <option value="sepia(100%)">Sepia</option>
+                            <option value="blur(5px)">Blur</option>
+                            <option value="brightness(150%)">Brightness</option>
+                            <option value="contrast(200%)">Contrast</option>
+                        </select>
+                    </div>
                 </div>
             </div>
             
             <div id="photoStripContainer" class="d-flex justify-content-center mt-4" style="display: none !important;"></div>
+            
+
 
 <!-- How to Use Modal -->
 <div class="modal fade" id="howToUseModal" tabindex="-1" aria-labelledby="howToUseLabel" aria-hidden="true">
@@ -116,6 +113,7 @@
         </div>
             <div class="modal-body">
             <ol class="fs-5">
+                <li>Please open the website in a browser like Chrome or Safari, not in Facebook Messenger's built in browser.</li>
                 <li>Allow the browser to access your camera when prompted.</li>
                 <li>Select how many photos you'd like to take using the dropdown menu.</li>
                 <li>Choose your preferred background color for the photo frame.</li>
