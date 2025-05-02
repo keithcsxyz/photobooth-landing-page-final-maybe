@@ -1,16 +1,3 @@
-/*declaration of fonts*/
-@font-face {
-	font-family: 'MyCursiveFont';
-	src: url('fonts/CedarvilleCursive-Regular.ttf') format('truetype');
-	font-weight: normal;
-	font-style: normal;
-  }
-
-@font-face {
-	font-family: 'DancingScript';
-	src: url('fonts/DancingScript-Regular.ttf') format('truetype');
-}
-
 body {
 	background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
 	background-size: 400% 400%;
