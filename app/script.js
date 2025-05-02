@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
         stripCtx.fillStyle = '#a5b4fc';
         stripCtx.fillRect(stripWidth * 0.2, 0, stripWidth * 0.6, gradientHeight);
 
-        stripCtx.fillStyle = '#374151';
+        stripCtx.fillStyle = '#FFFFFF';
         stripCtx.font = 'bold 16px "Segoe UI", Arial, sans-serif';
         stripCtx.textAlign = 'center';
         stripCtx.fillText('Photobooth', stripWidth / 2, 30);
@@ -150,7 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         Promise.all(loadPhotoPromises).then(() => {
             const date = new Date().toLocaleDateString();
-            stripCtx.fillStyle = '#6b7280';
+            stripCtx.fillStyle = '#FFFFFF';
             stripCtx.font = '12px "Segoe UI", Arial, sans-serif';
             stripCtx.fillText(date, stripWidth / 2, stripHeight - 35);
 
