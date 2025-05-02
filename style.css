@@ -255,3 +255,32 @@ a {
 	transform: scale(0.95);
   }
   
+
+
+
+
+
+
+  /* announcement*/
+
+
+  .modal-content {
+	background: rgba(255, 255, 255, 0.1); /* semi-transparent white */
+	backdrop-filter: blur(15px);          /* blur the background */
+	-webkit-backdrop-filter: blur(15px);  /* Safari support */
+	border: 1px solid rgba(255, 255, 255, 0.2); /* optional frosty border */
+	color: white;                         /* optional, for dark backgrounds */
+  }
+  
+
+/* Target the actual close icon inside the .btn-close button */
+.btn-close span {
+	color: red !important; /* Change the X icon color to red */
+  }
+  
+  /* Change color on hover */
+  .btn-close:hover span {
+	color: darkred !important; /* Darker red on hover */
+	background-color: transparent; /* Keep background transparent */
+  }
+  
