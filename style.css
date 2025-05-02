@@ -1,3 +1,7 @@
+html {
+  scroll-behavior: smooth;
+}
+
 body {
 	background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
 	background-size: 400% 400%;
@@ -23,6 +27,16 @@ body {
 .navbar-brand {
 	font-family: "Brush Script MT", cursive;
 }
+
+.custom-navbar {
+  background: rgba(0, 0, 0, 0.4); /* semi-transparent black */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: background 0.3s ease, backdrop-filter 0.3s ease;
+
+}
+
 
 .navbar .nav-link {
     color: white !important; /* Set the text color to white */
@@ -118,9 +132,62 @@ section {
 section.active {
   display: block;
 }
-.navbar-toggler {
-	background-color: white;
+
+
+
+
+.hamburger {
+  display: inline-block;
+  cursor: pointer;
+  width: 24px;
+  height: 18px;
+  position: relative;
 }
+
+.hamburger span {
+  background: white;
+  display: block;
+  height: 3px;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  transition: 0.3s ease;
+}
+
+.hamburger span:nth-child(1) {
+  top: 0;
+}
+
+.hamburger span:nth-child(2) {
+  top: 7.5px;
+}
+
+.hamburger span:nth-child(3) {
+  top: 15px;
+}
+
+.custom-toggler.open .hamburger span:nth-child(1) {
+  transform: rotate(45deg);
+  top: 7.5px;
+}
+
+.custom-toggler.open .hamburger span:nth-child(2) {
+  opacity: 0;
+}
+
+.custom-toggler.open .hamburger span:nth-child(3) {
+  transform: rotate(-45deg);
+  top: 7.5px;
+}
+
+
+
+
+
+
+
+
+
 
 .cameraa {
 	margin-top: 80px;
@@ -211,4 +278,3 @@ a {
 	transform: scale(0.95);
   }
   
-
