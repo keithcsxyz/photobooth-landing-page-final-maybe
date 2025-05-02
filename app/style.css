@@ -7,7 +7,7 @@
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Single Day', cursive;
     background: linear-gradient(135deg, #F8F9FA, #DDEBE1, #E3EDF7, #F3EDE2 100%);
     background-size: 400% 400%; /* Increase the size of the gradient */
     min-height: 100vh;
