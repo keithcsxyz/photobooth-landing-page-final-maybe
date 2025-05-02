@@ -8,10 +8,25 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg,  #ee7752, #e73c7e, #23a6d5, #23d5ab 100%);
+    background: linear-gradient(135deg, #F8F9FA, #DDEBE1, #E3EDF7, #F3EDE2 100%);
+    background-size: 400% 400%; /* Increase the size of the gradient */
     min-height: 100vh;
     color: var(--dark);
+    animation: gradient 15s ease infinite;
 }
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
 
 .container {
     max-width: 800px;
@@ -240,8 +255,19 @@ canvas {
 }
 
 .filter-options {
-    margin-top: 20px;
+    background-color: #f9fafb;
+    border-left: 5px solid #6366f1; /* Indigo accent */
+    transition: box-shadow 0.3s ease;
 }
+
+.filter-options:hover {
+    box-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
+}
+
+.filter-options h5 {
+    font-size: 1.1rem;
+}
+
 
 .photo-strip {
     margin: 10px;
@@ -249,3 +275,79 @@ canvas {
     border: 2px solid #ddd;
     border-radius: 5px;
 }
+
+
+
+#heading-title {
+    font-family: sans-serif;
+    color: #3c3c3c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    flex-direction: column;
+}
+
+@keyframes textShine {
+    0% {
+      background-position: 0% 50%;
+    }
+    100% {
+      background-position: 100% 50%;
+    }
+  }
+  
+  h1 {
+    font-size: clamp(2.8rem, 1.5vw, 3rem);
+    font-weight: bold;
+    margin: 5px;
+    background: linear-gradient(
+      to right,
+      #ee7752 20%,
+      #e73c7e, 30%,
+      #23a6d5,70%,
+      #23d5ab 80%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-fill-color: transparent;
+    background-size: 500% auto;
+    animation: textShine 5s ease-in-out infinite alternate;
+  }
+
+
+#clearButton:hover {
+    background-color: rgb(201, 64, 64);
+}
+
+
+
+
+
+.color-palette {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* space between colors */
+    max-width: 300px; /* optional: to control wrap width */
+  }
+  
+  .color-option {
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    cursor: pointer;
+    border: 2px solid #ccc;
+    transition: transform 0.2s ease;
+  }
+  
+  .color-option:hover {
+    transform: scale(1.1);
+    border-color: #666;
+  }
+  
+  .how-to-use-gif {
+    height: 35px;
+  }
+
+
