@@ -40,7 +40,7 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item me-4"><a class="nav-link active" data-target="home">Home</a></li>
-          <li class="nav-item me-4"><a class="nav-link" data-target="team">Team</a></li>
+          <li class="nav-item me-4"><a class="nav-link" data-target="aboutUs">About</a></li>
           <li class="nav-item me-4"><a class="nav-link" data-target="contactUs">Contact</a></li>
         </ul>
       </div>
@@ -82,9 +82,9 @@
   </div>
 </section>
 
-<!-- Team Section -->
-<section id="team" class="container py-5">
-  <h1 class="text-center mb-4 mt-5" style="font-size: 50px;">Team</h1>
+<!-- About Us Section -->
+<section id="aboutUs" class="container py-5">
+  <h1 class="text-center mb-4 mt-5" style="font-size: 50px;">About Us</h1>
   <p class="text-center" style="font-size: 20px; margin-top: -20px;">We are a team of passionate developers working on this case study project:</p>
   <div class="row justify-content-center mt-4">
     <div class="col-md-3 team-member">
@@ -152,6 +152,56 @@
 </script>
 
 <script src="script.js"></script>
+
+
+
+<!-- NEW Announcement Modal -->
+<div class="modal fade" id="announcementModal" tabindex="-1" aria-labelledby="announcementLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content shadow">
+      <div class="modal-header">
+        <h5 class="modal-title fw-bold" id="announcementLabel"><img style="height: 35px;" src="./design/announcement.gif" alt=""><strong>Announcement</strong></h5>
+
+
+
+        <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+            style="
+              width: 2rem;
+              height: 2rem;
+              background-size: contain;
+              background-image: url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'40\' height=\'40\' fill=\'red\' class=\'bi bi-x\' viewBox=\'0 0 16 16\'%3E%3Cpath d=\'M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z\'/%3E%3C/svg%3E');">
+         </button>
+        
+      </div>
+      <div class="modal-body">
+        <p class="fs-5">
+            1. We're currently improving our Photobooth Web App based on your feedback. Stay tuned for exciting updates! <br>
+            2. This is a case study project for our Computer Science program.
+            The app is designed to be user-friendly and efficient, allowing users to capture and share their memories effortlessly. <br>
+            We appreciate your understanding and support as we continue to improve this project. <br>
+            3. Send gcash kay wa nay allowance haha.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+window.addEventListener("DOMContentLoaded", () => {
+  const announcementModal = new bootstrap.Modal(document.getElementById('announcementModal'));
+  announcementModal.show();
+});
+
+</script>
+
+
+
+
 
 </body>
 </html>
