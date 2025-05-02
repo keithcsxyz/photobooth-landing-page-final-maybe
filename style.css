@@ -1,3 +1,10 @@
+@font-face {
+	font-family: 'MyCursiveFont';
+	src: url('fonts/CedarvilleCursive-Regular.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
 html {
   scroll-behavior: smooth;
 }
