@@ -15,10 +15,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let photosTaken = 0;
     let photosToTake = 1;
     let capturedPhotos = [];
-    let selectedFrameColor = '#f5f7fa'; // Default frame color
-    let selectedFilter = 'none'; // Store the selected filter
+    let selectedFrameColor = '#f5f7fa';
+    let currentFilter = 'none'; // Store selected filter
 
-    // Handle color selection
     colorOptions.forEach(option => {
         option.addEventListener('click', () => {
             colorOptions.forEach(o => o.classList.remove('selected'));
@@ -27,13 +26,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Handle filter selection
     filterSelect.addEventListener('change', (event) => {
-        selectedFilter = event.target.value;
-        video.style.filter = selectedFilter;
+        currentFilter = event.target.value;
+        video.style.filter = currentFilter;
     });
 
-    // Initialize camera
     async function initCamera() {
         try {
             const constraints = {
@@ -53,12 +50,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 canvas.height = video.videoHeight;
             };
         } catch (err) {
-            console.error("Camera error:", err);
+            console.error("Error accessing camera:", err);
             alert("Camera error: " + err.message);
         }
     }
 
-    // Take a picture with countdown
     function takePicture() {
         return new Promise((resolve) => {
             let count = 3;
@@ -78,8 +74,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     ctx.clearRect(0, 0, canvas.width, canvas.height);
                     ctx.translate(canvas.width, 0);
                     ctx.scale(-1, 1);
-                    ctx.filter = selectedFilter; // Apply selected filter
+                    ctx.filter = currentFilter; // Apply filter here
                     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    ctx.filter = 'none';
                     ctx.restore();
 
                     const photoUrl = canvas.toDataURL('image/png');
@@ -90,7 +87,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Create photo strip
     function createPhotoStrip() {
         photoStripContainer.innerHTML = '';
         photoStripContainer.style.display = 'flex';
@@ -111,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
         stripCtx.fillStyle = '#a5b4fc';
         stripCtx.fillRect(stripWidth * 0.2, 0, stripWidth * 0.6, 8);
 
-        stripCtx.fillStyle = '#374151';
+        stripCtx.fillStyle = '#FFFFFF';
         stripCtx.font = 'bold 16px "Segoe UI", Arial, sans-serif';
         stripCtx.textAlign = 'center';
         stripCtx.fillText('Photobooth', stripWidth / 2, 30);
@@ -140,12 +136,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         Promise.all(loadPhotoPromises).then(() => {
             const date = new Date().toLocaleDateString();
-            stripCtx.fillStyle = '#6b7280';
+            stripCtx.fillStyle = '#FFFFFF';
             stripCtx.font = '12px "Segoe UI", Arial, sans-serif';
             stripCtx.fillText(date, stripWidth / 2, stripHeight - 35);
 
             const stripUrl = stripCanvas.toDataURL('image/png');
-
             const photoStrip = document.createElement('div');
             photoStrip.className = 'photo-strip';
             photoStrip.innerHTML = `
@@ -165,7 +160,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Start photo session
     async function startPhotoSession() {
         photosTaken = 0;
         photosToTake = parseInt(photoCountSelect.value);
@@ -186,7 +180,6 @@ document.addEventListener('DOMContentLoaded', () => {
         startButton.disabled = false;
     }
 
-    // Clear photos
     function clearPhotos() {
         capturedPhotos = [];
         photoStripContainer.innerHTML = '';
