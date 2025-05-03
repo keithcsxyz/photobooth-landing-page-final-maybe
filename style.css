@@ -72,7 +72,6 @@ body {
   opacity: 0;
   transform: translateY(30px);
   animation: fadeUp 1.5s ease-out forwards;
-  margin: 15px;
 }
 
 
@@ -240,8 +239,8 @@ section.active {
 .cameraa {
 	margin-top: 80px;
 	height: 250px;
-}
-
+  }
+  
 
 .intro-gif {
 	margin-bottom: 0;
@@ -294,7 +293,7 @@ a {
 	cursor: pointer;
   }
   
-  .cssbuttons-io-button .icon {
+.cssbuttons-io-button .icon {
 	background: rgb(219, 119, 207);
 	margin-left: 1em;
 	position: absolute;
@@ -307,19 +306,19 @@ a {
 	box-shadow: 0.1em 0.1em 0.6em 0.2em #7b52b9;
 	right: 0.3em;
 	transition: all 0.3s;
-  }
+}
   
-  .cssbuttons-io-button:hover .icon {
+.cssbuttons-io-button:hover .icon {
 	width: calc(100% - 0.6em);
-  }
+}
   
-  .cssbuttons-io-button .icon svg {
+.cssbuttons-io-button .icon svg {
 	width: 1.1em;
 	transition: transform 0.3s;
 	color: #7b52b9;
   }
   
-  .cssbuttons-io-button:hover .icon svg {
+.cssbuttons-io-button:hover .icon svg {
 	transform: translateX(0.1em);
   }
   
@@ -336,7 +335,7 @@ a {
   /* announcement*/
 
 
-  .modal-content {
+.modal-content {
 	background: rgba(255, 255, 255, 0.1); /* semi-transparent white */
 	backdrop-filter: blur(15px);          /* blur the background */
 	-webkit-backdrop-filter: blur(15px);  /* Safari support */
@@ -351,8 +350,69 @@ a {
   }
   
   /* Change color on hover */
-  .btn-close:hover span {
+.btn-close:hover span {
 	color: darkred !important; /* Darker red on hover */
 	background-color: transparent; /* Keep background transparent */
+}
+
+
+   /* css for contact sectiion message box glassphormism*/
+
+.glass-card {
+	position: relative;
+	background: rgba(255, 255, 255, 0.05);
+	border-radius: 16px;
+	padding: 30px;
+	backdrop-filter: blur(15px);
+	-webkit-backdrop-filter: blur(15px);
+	border: 1px solid rgba(255, 255, 255, 0.2);
+	max-width: 600px;
+	animation: shadow-animation 5s linear infinite; /* Add animation to box-shadow */
+}
+  
+  /* Keyframe animation for box-shadow */
+  @keyframes shadow-animation {
+	0% {
+	  box-shadow: -15px 10px 95px rgba(0, 0, 0, 0.9), 0 0 20px #ee7752;
+	}
+	25% {
+	  box-shadow: -20px 10px 95px rgba(0, 0, 0, 0.9), 0 0 20px #e73c7e;
+	}
+	50% {
+	  box-shadow: -20px 10px 95px rgba(0, 0, 0, 0.9), 0 0 20px #23a6d5;
+	}
+	75% {
+	  box-shadow: -20px 10px 95px rgba(0, 0, 0, 0.9), 0 0 20px #23d5ab;
+	}
+	100% {
+	  box-shadow: -20px 10px 95px rgba(0, 0, 0, 0.9), 0 0 20px #ee7752;
+	}
   }
   
+  
+  
+  .glass-input {
+	background: rgba(255, 255, 255, 0.1);
+	color: white;
+	border: 1px solid rgba(255, 255, 255, 0.2);
+	border-radius: 10px;
+	padding: 10px 15px;
+  }
+  
+  .glass-input::placeholder {
+	color: #ccc;
+  }
+  
+  .glass-button {
+	background: rgba(255, 255, 255, 0.15);
+	color: white;
+	border: none;
+	padding: 10px 30px;
+	border-radius: 8px;
+	transition: 0.3s;
+  }
+  
+  .glass-button:hover {
+	background: rgba(255, 255, 255, 0.3);
+	transform: scale(1.10);
+  }
