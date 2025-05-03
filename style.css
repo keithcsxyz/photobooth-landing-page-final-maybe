@@ -72,6 +72,7 @@ body {
   opacity: 0;
   transform: translateY(30px);
   animation: fadeUp 1.5s ease-out forwards;
+  margin: 15px;
 }
 
 
@@ -90,6 +91,62 @@ body {
   transform: scale(1.05);
   box-shadow: -20px 10px 55px rgba(0, 0, 0, 0.9);
 }
+
+
+.img-wrapper {
+	position: relative;
+	display: inline-block;
+  }
+  
+  .img-wrapper img {
+	transition: filter 0.3s ease;
+  }
+  
+  .img-wrapper:hover img {
+	filter: blur(2.5px);
+	transform: scale(1.05);
+	transition: transform 0.3s ease;
+  }
+  
+  .social-overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 0.3s ease;
+  }
+  
+  .img-wrapper:hover .social-overlay {
+	opacity: 1;
+	pointer-events: auto;
+  }
+  
+  .social-overlay .social-box {
+	flex-direction: row;
+	gap: 1.5rem;
+  }
+
+  .social-box .item svg {
+	width: 45px; /* Adjust width of the icon */
+	height: 45px; /* Adjust height of the icon */
+	transition: width 0.3s ease, height 0.3s ease, transform 0.3s ease, border-radius 0.3s ease; /* Add smooth transition */
+
+  }
+  
+  .social-box .item svg:hover {
+	border-radius: 50%; /* Make the icon fully round */
+	width: 60px; /* Increase the width on hover */
+	height: 60px; /* Increase the height on hover */
+	transform: scale(1.1); /* Slight scale-up effect */
+  }
+  
 
 .about-description {
 	font-size: 18px;
@@ -180,10 +237,6 @@ section.active {
 
 
 
-
-
-
-
 .cameraa {
 	margin-top: 80px;
 	height: 250px;
@@ -208,6 +261,7 @@ a {
 
 
 .pangaran {
+	padding-top: 15px;
 	font-size: 16px;
 }
 
