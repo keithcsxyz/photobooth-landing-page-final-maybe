@@ -416,3 +416,8 @@ a {
 	background: rgba(255, 255, 255, 0.3);
 	transform: scale(1.10);
   }
+
+#msg {
+	display: none;
+	color: white;
+}
