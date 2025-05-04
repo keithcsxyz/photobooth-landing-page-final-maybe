@@ -51,9 +51,11 @@ document.addEventListener("DOMContentLoaded", () => {
     colorOptions.forEach((o) => o.classList.remove("selected"));
   });
 
-  filterSelect.addEventListener("change", (event) => {
-    currentFilter = event.target.value;
-    video.style.filter = currentFilter;
+  filterSelect.addEventListener("change", () => {
+    const selectedFilter = filterSelect.value;
+    currentFilter = selectedFilter; // Save the current filter for canvas use
+    video.style.webkitFilter = selectedFilter; // ✅ Apply for iOS Safari
+    video.style.filter = selectedFilter; // ✅ Apply for most browsers
   });
 
   async function initCamera() {
