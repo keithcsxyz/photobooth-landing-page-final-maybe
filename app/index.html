@@ -17,13 +17,8 @@
   <body>
     <div class="container-fluid py-4">
       <div class="text-center mb-4">
-        <h1
-          class="fw-bold"
-          id="heading-title"
-          style="font-family: 'Single Day'; font-size: 45px"
-        >
-          PHOTOBOOTH
-        </h1>
+        <h1 class="fw-bold" id="heading-title" style="font-family: 'Single Day'; font-size: 45px;">PHOTOBOOTH</h1>
+
       </div>
 
       <div class="photo-container row g-4 align-items-start pt-0 mt-0">
@@ -38,7 +33,7 @@
           </div>
           <br />
           <div class="d-flex align-items-right">
-            <label for="photoCount" class="me-2">Number of photos:   </label>
+            <label for="photoCount" class="me-2">Number of photos:</label>
             <select id="photoCount" class="form-select w-auto options">
               <option value="1">1 photo</option>
               <option value="2">2 photos</option>
@@ -48,58 +43,15 @@
             </select>
             <div class="d-flex align-items-center">
               <label for="filterSelect" class="form-label me-3 mb-0"></label>
-                     Filters:        </label
+                Filter:</label
               >
               <select id="filterSelect" class="form-select w-auto options">
-                <!-- Basic Filters -->
                 <option value="none">None</option>
                 <option value="grayscale(100%)">Grayscale</option>
                 <option value="sepia(100%)">Sepia</option>
                 <option value="blur(5px)">Blur</option>
                 <option value="brightness(150%)">Brightness</option>
                 <option value="contrast(200%)">Contrast</option>
-
-                <!-- Aesthetic & Cute Filters -->
-                <option value="grayscale(100%) brightness(150%)">Retro</option>
-                <option value="sepia(80%) contrast(120%) saturate(150%)">
-                  Vintage
-                </option>
-                <option value="invert(100%) hue-rotate(180deg)">X-ray</option>
-                <option value="contrast(300%) brightness(120%)">Pop Art</option>
-                <option value="blur(3px) brightness(120%)">Soft Glow</option>
-                <option value="grayscale(50%) hue-rotate(30deg)">
-                  Cool Tone
-                </option>
-                <option value="sepia(90%) hue-rotate(-20deg)">Warm Tone</option>
-                <option value="saturate(200%) hue-rotate(90deg)">
-                  Candy Pop
-                </option>
-                <option
-                  value="brightness(130%) contrast(110%) hue-rotate(300deg)"
-                >
-                  Fairy Dust
-                </option>
-                <option value="contrast(90%) sepia(60%) hue-rotate(10deg)">
-                  Peachy
-                </option>
-                <option value="drop-shadow(4px 4px 6px pink)">
-                  Kawaii Shadow
-                </option>
-                <option value="invert(100%)">Inverted</option>
-
-                <!-- Moody & Dramatic -->
-                <option value="brightness(60%) contrast(130%)">Moody</option>
-                <option value="hue-rotate(250deg) contrast(150%)">
-                  Neon Dream
-                </option>
-                <option value="brightness(80%) saturate(80%)">Muted</option>
-
-                <!-- Cute Glows -->
-                <option value="drop-shadow(0 0 10px #ff9ce6)">Pink Glow</option>
-                <option value="drop-shadow(0 0 10px #a5b4fc)">
-                  Soft Blue Glow
-                </option>
-                <option value="drop-shadow(0 0 10px #baffc9)">Mint Glow</option>
               </select>
             </div>
           </div>
@@ -204,19 +156,18 @@
                   data-color="#ede6db"
                   style="background-color: #ede6db"
                 ></div>
+                
               </div>
               <div class="color-picker-wrapper mt-2">
-                <label for="customColor" class="form-label"
-                  >Choose Custom Frame Color:</label
-                >
-                <input
-                  type="color"
-                  id="customColor"
-                  class="form-control form-control-color color-option"
-                  value="#f5f5f5"
-                  title="Pick a color"
-                />
-              </div>
+  <label for="customColor" class="form-label">Choose Custom Frame Color:</label>
+  <input
+    type="color"
+    id="customColor"
+    class="form-control form-control-color color-option"
+    value="#f5f5f5"
+    title="Pick a color"
+  >
+</div>
 
               <br />
               <!-- Hidden canvas for creating the photo strip -->
