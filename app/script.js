@@ -17,6 +17,23 @@ document.addEventListener("DOMContentLoaded", () => {
   let capturedPhotos = [];
   let selectedFrameColor = "#f5f7fa";
   let currentFilter = "none"; // Store selected filter
+  let isMirrored = true; // default to mirrored
+
+  const toggleMirrorBtn = document.getElementById("toggleMirrorBtn");
+
+  toggleMirrorBtn.addEventListener("click", () => {
+    isMirrored = !isMirrored;
+    toggleMirrorBtn.textContent = `Mirror: ${isMirrored ? "On" : "Off"}`;
+    updateVideoMirror();
+  });
+
+  function updateVideoMirror() {
+    if (isMirrored) {
+      video.style.transform = "scaleX(-1)";
+    } else {
+      video.style.transform = "scaleX(1)";
+    }
+  }
 
   colorOptions.forEach((option) => {
     option.addEventListener("click", () => {
@@ -56,6 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
       video.onloadedmetadata = () => {
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
+        updateVideoMirror();
       };
     } catch (err) {
       console.error("Error accessing camera:", err);
@@ -80,8 +98,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
           ctx.save();
           ctx.clearRect(0, 0, canvas.width, canvas.height);
-          ctx.translate(canvas.width, 0);
-          ctx.scale(-1, 1);
+
+          if (isMirrored) {
+            ctx.translate(canvas.width, 0);
+            ctx.scale(-1, 1);
+          }
+
           ctx.filter = currentFilter; // Apply filter here
           ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
           ctx.filter = "none";
@@ -99,11 +121,15 @@ document.addEventListener("DOMContentLoaded", () => {
     photoStripContainer.innerHTML = "";
     photoStripContainer.style.display = "flex";
 
-    const stripWidth = 300;
-    const photoHeight = 225;
-    const gap = 1;
+    const stripWidth = 400;
+    const photoHeight = 300;
+    const gap = -85;
     const sideMargin = 20;
     const topMargin = 50;
+
+    // Define margin for left, right, and bottom of the last image
+    const imageMargin = 1; // 10px margin on left/right and bottom of last image
+
     const stripHeight =
       photoHeight * capturedPhotos.length +
       gap * (capturedPhotos.length - 1) +
@@ -127,9 +153,9 @@ document.addEventListener("DOMContentLoaded", () => {
       return new Promise((resolve) => {
         const img = new Image();
         img.onload = () => {
-          const y = topMargin + index * (photoHeight + gap);
           const aspectRatio = img.width / img.height;
-          let drawWidth = stripWidth - sideMargin * 2;
+
+          let drawWidth = stripWidth - sideMargin * 2; // Subtract margins for left/right
           let drawHeight = drawWidth / aspectRatio;
 
           if (drawHeight > photoHeight) {
@@ -137,8 +163,16 @@ document.addEventListener("DOMContentLoaded", () => {
             drawWidth = photoHeight * aspectRatio;
           }
 
-          const xOffset = (stripWidth - drawWidth) / 2;
+          const xOffset = (stripWidth - drawWidth) / 2; // Center the image horizontally
+          const y = topMargin + index * (photoHeight + gap);
+
+          // Only apply margin to the last image's bottom
+          const bottomMargin =
+            index === capturedPhotos.length - 1 ? imageMargin : 0;
+
           stripCtx.drawImage(img, xOffset, y, drawWidth, drawHeight);
+
+          // Apply bottom margin to the last image
           resolve();
         };
         img.src = photoUrl;
@@ -155,10 +189,10 @@ document.addEventListener("DOMContentLoaded", () => {
       const photoStrip = document.createElement("div");
       photoStrip.className = "photo-strip";
       photoStrip.innerHTML = `
-                <div class="photo-strip-title">Photobooth Strip</div>
-                <img src="${stripUrl}" alt="Photo Strip">
-                <button id="saveStripBtn" class="btn btn-custom w-100 mt-2">Save Photo Strip</button>
-            `;
+      <div class="photo-strip-title">Photobooth Strip</div>
+      <img src="${stripUrl}" alt="Photo Strip">
+      <button id="saveStripBtn" class="btn btn-custom w-100 mt-2">Save Photo Strip</button>
+    `;
       photoStripContainer.appendChild(photoStrip);
 
       const saveStripBtn = document.getElementById("saveStripBtn");
