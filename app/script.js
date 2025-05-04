@@ -26,6 +26,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  const customColorInput = document.getElementById("customColor");
+  customColorInput.addEventListener("input", (event) => {
+    selectedFrameColor = event.target.value;
+
+    // Optionally, deselect all preset colors for clarity
+    colorOptions.forEach((o) => o.classList.remove("selected"));
+  });
+
   filterSelect.addEventListener("change", (event) => {
     currentFilter = event.target.value;
     video.style.filter = currentFilter;
