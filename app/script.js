@@ -88,6 +88,13 @@ document.addEventListener("DOMContentLoaded", () => {
       timer.textContent = count;
       timer.style.display = "flex";
 
+      const videoWidth = video.videoWidth;
+      const videoHeight = video.videoHeight;
+
+      // Match canvas size to the live video preview's aspect ratio and size
+      canvas.width = video.clientWidth;
+      canvas.height = video.clientHeight;
+
       const countdown = setInterval(() => {
         count--;
         if (count > 0) {
@@ -123,8 +130,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const stripWidth = 400;
     const photoHeight = 300;
-    const gap = -85;
-    const sideMargin = 20;
+    const gap = -30; //increase to decrease gap between images
+    const sideMargin = 30;
     const topMargin = 50;
 
     // Define margin for left, right, and bottom of the last image
@@ -182,8 +189,8 @@ document.addEventListener("DOMContentLoaded", () => {
     Promise.all(loadPhotoPromises).then(() => {
       const date = new Date().toLocaleDateString();
       stripCtx.fillStyle = "#A52A2A";
-      stripCtx.font = '12px "Segoe UI", Arial, sans-serif';
-      stripCtx.fillText(date, stripWidth / 2, stripHeight - 35);
+      stripCtx.font = '11px "Single Day", cursive;';
+      stripCtx.fillText(date, stripWidth / 2, stripHeight - 15);
 
       const stripUrl = stripCanvas.toDataURL("image/png");
       const photoStrip = document.createElement("div");
@@ -191,7 +198,7 @@ document.addEventListener("DOMContentLoaded", () => {
       photoStrip.innerHTML = `
       <div class="photo-strip-title">Photobooth Strip</div>
       <img src="${stripUrl}" alt="Photo Strip">
-      <button id="saveStripBtn" class="btn btn-custom w-100 mt-2">Save Photo Strip</button>
+      <button id="saveStripBtn" class="btn btn-custom w-100 mt-3">Save Photo Strip</button>
     `;
       photoStripContainer.appendChild(photoStrip);
 
