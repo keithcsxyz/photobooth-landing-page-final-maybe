@@ -12,6 +12,26 @@ document.addEventListener("DOMContentLoaded", () => {
   const stripCtx = stripCanvas.getContext("2d");
   const ctx = canvas.getContext("2d");
 
+  const filters = [
+    { name: "None", value: "none" },
+    { name: "Grayscale", value: "grayscale(100%)" },
+    { name: "Sepia", value: "sepia(100%)" },
+    { name: "Blur", value: "blur(3px)" },
+    { name: "Brightness", value: "brightness(150%)" },
+    { name: "Contrast", value: "contrast(200%)" },
+    { name: "Hue Rotate", value: "hue-rotate(90deg)" },
+    { name: "Invert", value: "invert(100%)" },
+    { name: "Saturate", value: "saturate(300%)" },
+  ];
+
+  // Populate the dropdown
+  filters.forEach((filter) => {
+    const option = document.createElement("option");
+    option.value = filter.value;
+    option.textContent = filter.name;
+    filterSelect.appendChild(option);
+  });
+
   let photosTaken = 0;
   let photosToTake = 1;
   let capturedPhotos = [];
@@ -51,19 +71,10 @@ document.addEventListener("DOMContentLoaded", () => {
     colorOptions.forEach((o) => o.classList.remove("selected"));
   });
 
-  filterSelect.addEventListener("change", () => {
-    const selectedFilter = filterSelect.value;
-    currentFilter = selectedFilter; // Save the current filter for canvas use
-    video.style.webkitFilter = selectedFilter; // ✅ Apply for iOS Safari
-    video.style.mozFilter = selectedFilter; // ✅ Apply for Firefox
-    video.style.msFilter = selectedFilter; // ✅ Apply for IE
-    video.style.oFilter = selectedFilter; // ✅ Apply for Opera
-    video.style.filter = selectedFilter; // ✅ Apply for Chrome
-    // For other browsers, we can use the standard filter property
-    // Note: The filter property is supported in most modern browsers
-    // but not in IE or Edge. However, Edge supports the -ms-filter property.
-    // So we can use the standard filter property for most browsers.
-    video.style.filter = selectedFilter; // ✅ Apply for most browsers
+  filterSelect.addEventListener("change", function () {
+    currentFilter = this.value;
+    video.style.filter = this.value;
+    video.style.webkitFilter = this.value;
   });
 
   async function initCamera() {
