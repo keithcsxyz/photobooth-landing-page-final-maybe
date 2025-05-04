@@ -20,7 +20,7 @@
 }
 
 body {
-  background: linear-gradient(135deg, #f8f9fa, #ddebe1, #e3edf7, #f3ede2 100%);
+  background: linear-gradient(135deg, #f5f5f4, #eae4e0, #d6cfc7, #cdbeb2 100%);
   background-size: 400% 400%; /* Increase the size of the gradient */
   min-height: 100vh;
   color: var(--dark);
@@ -47,19 +47,21 @@ body {
 .photo-container {
   background-color: white;
   border-radius: 20px;
-  padding: 20px;
+  padding: 10px;
+  margin: 0;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
 .booth {
   position: relative;
-  border: 8px solid white;
+  border: 1px solid white;
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   max-width: 640px;
   margin: 0 auto;
   background-color: #f0f0f0;
+  margin-top: -40px;
 }
 
 .booth-inner {
@@ -91,11 +93,12 @@ canvas {
 }
 
 .control-panel {
-  margin-top: 20px;
+  margin-top: -15px;
   padding: 15px;
   border-radius: 10px;
-  background-color: white;
+  background-color: transparent;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  width: 100%;
 }
 
 .btn-custom {
@@ -296,7 +299,6 @@ h1 {
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-fill-color: transparent;
   background-size: 500% auto;
   animation: textShine 5s ease-in-out infinite alternate;
 }
@@ -351,4 +353,32 @@ h1 {
 
 .photo-container {
   background-color: rgba(255, 255, 255, 0.1);
+}
+
+.options {
+  background: rgba(255, 255, 255, 0.1); /* Transparent white background */
+  color: rgb(0, 0, 0); /* Text color */
+  font-family: "Arial", sans-serif;
+  font-size: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Light border */
+  border-radius: 10px; /* Rounded corners */
+  padding: 10px;
+  backdrop-filter: blur(10px); /* Glassmorphism effect */
+  -webkit-backdrop-filter: blur(10px); /* Safari support */
+  transition: all 0.3s ease-in-out; /* Smooth transition */
+}
+
+.options:focus {
+  outline: none;
+  border: 1px solid rgba(255, 255, 255, 0.7); /* Focus effect */
+}
+
+.options {
+  background: rgba(
+    0,
+    0,
+    0,
+    0.3
+  ); /* Slightly transparent background for options */
+  color: white;
 }
