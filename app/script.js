@@ -55,6 +55,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const selectedFilter = filterSelect.value;
     currentFilter = selectedFilter; // Save the current filter for canvas use
     video.style.webkitFilter = selectedFilter; // ✅ Apply for iOS Safari
+    video.style.mozFilter = selectedFilter; // ✅ Apply for Firefox
+    video.style.msFilter = selectedFilter; // ✅ Apply for IE
+    video.style.oFilter = selectedFilter; // ✅ Apply for Opera
+    video.style.filter = selectedFilter; // ✅ Apply for Chrome
+    // For other browsers, we can use the standard filter property
+    // Note: The filter property is supported in most modern browsers
+    // but not in IE or Edge. However, Edge supports the -ms-filter property.
+    // So we can use the standard filter property for most browsers.
     video.style.filter = selectedFilter; // ✅ Apply for most browsers
   });
 
@@ -63,8 +71,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const constraints = {
         video: {
           facingMode: { ideal: "user" },
-          width: { ideal: 1280 },
-          height: { ideal: 720 },
+          width: { ideal: 640 },
+          height: { ideal: 480 },
         },
         audio: false,
       };
@@ -112,6 +120,8 @@ document.addEventListener("DOMContentLoaded", () => {
             ctx.translate(canvas.width, 0);
             ctx.scale(-1, 1);
           }
+
+          console.log(currentFilter);
 
           ctx.filter = currentFilter; // Apply filter here
           ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
