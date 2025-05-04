@@ -22,6 +22,30 @@ document.addEventListener("DOMContentLoaded", () => {
     { name: "Hue Rotate", value: "hue-rotate(90deg)" },
     { name: "Invert", value: "invert(100%)" },
     { name: "Saturate", value: "saturate(300%)" },
+    {
+      name: "Vibrant",
+      value: "saturate(200%) brightness(150%) contrast(150%)",
+    },
+    {
+      name: "Trending",
+      value: "saturate(150%) brightness(120%) contrast(130%)",
+    },
+    {
+      name: "Aesthetic",
+      value: "grayscale(50%) contrast(120%) brightness(110%)",
+    },
+    {
+      name: "Shrek",
+      value: "hue-rotate(90deg) saturate(150%) brightness(120%)",
+    },
+    { name: "Retro", value: "sepia(80%) contrast(120%)" },
+    { name: "Neon", value: "saturate(500%) brightness(120%) contrast(150%)" },
+    { name: "Cool", value: "hue-rotate(180deg) saturate(120%)" },
+    {
+      name: "Warm",
+      value: "hue-rotate(45deg) saturate(130%) brightness(110%)",
+    },
+    { name: "Night", value: "brightness(50%) contrast(80%)" },
   ];
 
   // Populate the dropdown
@@ -316,11 +340,11 @@ function applyFallbackFilter(imageData, filterType) {
       break;
 
     case "contrast(200%)":
-      const factor = (259 * (200 + 255)) / (255 * (259 - 200));
+      const contrastFactor = 2; // A value closer to 1 will reduce the contrast
       for (let i = 0; i < data.length; i += 4) {
-        data[i] = factor * (data[i] - 128) + 128;
-        data[i + 1] = factor * (data[i + 1] - 128) + 128;
-        data[i + 2] = factor * (data[i + 2] - 128) + 128;
+        data[i] = (data[i] - 128) * contrastFactor + 128;
+        data[i + 1] = (data[i + 1] - 128) * contrastFactor + 128;
+        data[i + 2] = (data[i + 2] - 128) * contrastFactor + 128;
       }
       break;
 
@@ -349,6 +373,105 @@ function applyFallbackFilter(imageData, filterType) {
         data[i] = gray + (data[i] - gray) * 3;
         data[i + 1] = gray + (data[i + 1] - gray) * 3;
         data[i + 2] = gray + (data[i + 2] - gray) * 3;
+      }
+      break;
+
+    // Custom Filters
+    case "vibrant":
+      for (let i = 0; i < data.length; i += 4) {
+        data[i] *= 1.2; // Increase red channel
+        data[i + 1] *= 1.2; // Increase green channel
+        data[i + 2] *= 1.2; // Increase blue channel
+      }
+      break;
+
+    case "trending":
+      for (let i = 0; i < data.length; i += 4) {
+        data[i] *= 1.1; // Brightness
+        data[i + 1] *= 1.1; // Brightness
+        data[i + 2] *= 1.1; // Brightness
+        data[i] = Math.min(255, data[i] * 1.5); // Saturation
+        data[i + 1] = Math.min(255, data[i + 1] * 1.5); // Saturation
+        data[i + 2] = Math.min(255, data[i + 2] * 1.5); // Saturation
+        const contrastFactor = 1.3; // High contrast
+        data[i] = (data[i] - 128) * contrastFactor + 128;
+        data[i + 1] = (data[i + 1] - 128) * contrastFactor + 128;
+        data[i + 2] = (data[i + 2] - 128) * contrastFactor + 128;
+      }
+      break;
+
+    case "aesthetic":
+      for (let i = 0; i < data.length; i += 4) {
+        const r = data[i],
+          g = data[i + 1],
+          b = data[i + 2];
+        data[i] = r * 0.393 + g * 0.769 + b * 0.189; // Sepia
+        data[i + 1] = r * 0.349 + g * 0.686 + b * 0.168;
+        data[i + 2] = r * 0.272 + g * 0.534 + b * 0.131;
+        const gray = 0.3 * data[i] + 0.59 * data[i + 1] + 0.11 * data[i + 2];
+        data[i] = gray + (data[i] - gray) * 1.5; // Saturate
+        data[i + 1] = gray + (data[i + 1] - gray) * 1.5;
+        data[i + 2] = gray + (data[i + 2] - gray) * 1.5;
+        const contrastFactor = 1.2;
+        data[i] = (data[i] - 128) * contrastFactor + 128; // Contrast
+        data[i + 1] = (data[i + 1] - 128) * contrastFactor + 128;
+        data[i + 2] = (data[i + 2] - 128) * contrastFactor + 128;
+      }
+      break;
+
+    case "cute":
+      for (let i = 0; i < data.length; i += 4) {
+        const r = data[i],
+          g = data[i + 1],
+          b = data[i + 2];
+        data[i] = g;
+        data[i + 1] = b;
+        data[i + 2] = r; // Hue rotate
+        const gray = 0.3 * data[i] + 0.59 * data[i + 1] + 0.11 * data[i + 2];
+        data[i] = gray + (data[i] - gray) * 2.5; // Saturate
+        data[i + 1] = gray + (data[i + 1] - gray) * 2.5;
+        data[i + 2] = gray + (data[i + 2] - gray) * 2.5;
+        const contrastFactor = 1.2;
+        data[i] = (data[i] - 128) * contrastFactor + 128; // Contrast
+        data[i + 1] = (data[i + 1] - 128) * contrastFactor + 128;
+        data[i + 2] = (data[i + 2] - 128) * contrastFactor + 128;
+      }
+      break;
+
+    case "retro":
+      for (let i = 0; i < data.length; i += 4) {
+        data[i] *= 0.8; // Decrease red channel
+        data[i + 1] *= 0.8; // Decrease green channel
+        data[i + 2] *= 0.8; // Decrease blue channel
+      }
+      break;
+
+    case "neon":
+      for (let i = 0; i < data.length; i += 4) {
+        data[i] *= 1.5; // Enhance red channel
+        data[i + 1] *= 1.5; // Enhance green channel
+        data[i + 2] *= 1.5; // Enhance blue channel
+      }
+      break;
+
+    case "cool":
+      for (let i = 0; i < data.length; i += 4) {
+        data[i + 2] *= 1.2; // Boost blue channel for cooler tone
+      }
+      break;
+
+    case "warm":
+      for (let i = 0; i < data.length; i += 4) {
+        data[i] *= 1.2; // Boost red channel for warmer tone
+        data[i + 1] *= 1.1; // Slightly boost green channel
+      }
+      break;
+
+    case "night":
+      for (let i = 0; i < data.length; i += 4) {
+        data[i] *= 0.7; // Darken red
+        data[i + 1] *= 0.7; // Darken green
+        data[i + 2] *= 0.7; // Darken blue
       }
       break;
   }
