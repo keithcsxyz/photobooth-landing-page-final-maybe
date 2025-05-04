@@ -17,11 +17,12 @@
   <body>
     <div class="container-fluid py-4">
       <div class="text-center mb-4">
-        <h1 class="display-4 fw-bold" id="heading-title">Photobooth</h1>
+        <h1 class="fw-bold" id="heading-title">Photobooth</h1>
       </div>
 
-      <div class="photo-container row g-4 align-items-start">
+      <div class="photo-container row g-4 align-items-start pt-0 mt-0">
         <div class="col-md-5">
+          <br />
           <div class="booth">
             <div class="booth-inner">
               <video id="video" autoplay playsinline muted></video>
@@ -29,22 +30,35 @@
               <div id="timer" class="timer-popup" style="display: none">3</div>
             </div>
           </div>
+          <br />
+          <div class="d-flex align-items-right">
+            <label for="photoCount" class="me-2">Number of photos:</label>
+            <select id="photoCount" class="form-select w-auto options">
+              <option value="1">1 photo</option>
+              <option value="2">2 photos</option>
+              <option value="3">3 photos</option>
+              <option value="4">4 photos</option>
+              <option value="5">5 photos</option>
+            </select>
+            <div class="d-flex align-items-center">
+              <label for="filterSelect" class="form-label me-3 mb-0"></label>
+                Filter:</label
+              >
+              <select id="filterSelect" class="form-select w-auto options">
+                <option value="none">None</option>
+                <option value="grayscale(100%)">Grayscale</option>
+                <option value="sepia(100%)">Sepia</option>
+                <option value="blur(5px)">Blur</option>
+                <option value="brightness(150%)">Brightness</option>
+                <option value="contrast(200%)">Contrast</option>
+              </select>
+            </div>
+          </div>
         </div>
         <div class="col-md-7">
           <div class="control-panel">
             <div class="row align-items-center mb-3">
-              <div class="col-md-6 col-lg-5 mb-3 mb-md-0">
-                <div class="d-flex align-items-center">
-                  <label for="photoCount" class="me-2">Number of photos:</label>
-                  <select id="photoCount" class="form-select w-auto">
-                    <option value="1">1 photo</option>
-                    <option value="2">2 photos</option>
-                    <option value="3">3 photos</option>
-                    <option value="4">4 photos</option>
-                    <option value="5">5 photos</option>
-                  </select>
-                </div>
-              </div>
+              <div class="col-md-6 col-lg-5 mb-3 mb-md-0"></div>
               <div class="col-md-6 col-lg-7">
                 <div class="d-flex justify-content-end gap-2">
                   <button
@@ -136,26 +150,22 @@
                   data-color="#ede6db"
                   style="background-color: #ede6db"
                 ></div>
+                
               </div>
-            </div>
+              <div class="color-picker-wrapper mt-2">
+  <label for="customColor" class="form-label">Choose Custom Frame Color:</label>
+  <input
+    type="color"
+    id="customColor"
+    class="form-control form-control-color color-option"
+    value="#f5f5f5"
+    title="Pick a color"
+  >
+</div>
 
-            <div
-              class="filter-options mt-4 p-3 rounded shadow-sm bg-light border"
-            >
-              <h5 class="mb-3 fw-semibold text-primary">🎨 Photo Filter</h5>
-              <div class="d-flex align-items-center">
-                <label for="filterSelect" class="form-label me-3 mb-0"
-                  >Choose a filter:</label
-                >
-                <select id="filterSelect" class="form-select w-auto">
-                  <option value="none">None</option>
-                  <option value="grayscale(100%)">Grayscale</option>
-                  <option value="sepia(100%)">Sepia</option>
-                  <option value="blur(5px)">Blur</option>
-                  <option value="brightness(150%)">Brightness</option>
-                  <option value="contrast(200%)">Contrast</option>
-                </select>
-              </div>
+              <br />
+              <!-- Hidden canvas for creating the photo strip -->
+              <canvas id="stripCanvas" class="hidden-canvas"></canvas>
             </div>
           </div>
         </div>
@@ -233,9 +243,6 @@
             </div>
           </div>
         </div>
-
-        <!-- Hidden canvas for creating the photo strip -->
-        <canvas id="stripCanvas" class="hidden-canvas"></canvas>
       </div>
     </div>
 
