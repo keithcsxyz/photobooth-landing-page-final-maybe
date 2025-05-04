@@ -134,9 +134,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
           console.log(currentFilter);
 
-          ctx.filter = currentFilter; // Apply filter here
+          // Draw video normally without CSS filter
           ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-          ctx.filter = "none";
+
+          // Apply fallback filter for iOS (if selected)
+          if (currentFilter !== "none") {
+            let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            imageData = applyFallbackFilter(imageData, currentFilter);
+            ctx.putImageData(imageData, 0, 0);
+          }
+
           ctx.restore();
 
           const photoUrl = canvas.toDataURL("image/png");
@@ -266,3 +273,85 @@ document.addEventListener("DOMContentLoaded", () => {
 
   initCamera();
 });
+
+function applyFallbackFilter(imageData, filterType) {
+  const data = imageData.data;
+
+  switch (filterType) {
+    case "none":
+      // No filter applied, return as is
+      break;
+
+    case "grayscale(100%)":
+      for (let i = 0; i < data.length; i += 4) {
+        const avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
+        data[i] = data[i + 1] = data[i + 2] = avg;
+      }
+      break;
+
+    case "sepia(100%)":
+      for (let i = 0; i < data.length; i += 4) {
+        const r = data[i],
+          g = data[i + 1],
+          b = data[i + 2];
+        data[i] = r * 0.393 + g * 0.769 + b * 0.189;
+        data[i + 1] = r * 0.349 + g * 0.686 + b * 0.168;
+        data[i + 2] = r * 0.272 + g * 0.534 + b * 0.131;
+      }
+      break;
+
+    case "blur(3px)":
+      // Basic blur effect using JS (not ideal for performance)
+      console.warn(
+        "Blur effect fallback may not work well in raw JS, use CSS if possible."
+      );
+      break;
+
+    case "brightness(150%)":
+      for (let i = 0; i < data.length; i += 4) {
+        data[i] *= 1.5;
+        data[i + 1] *= 1.5;
+        data[i + 2] *= 1.5;
+      }
+      break;
+
+    case "contrast(200%)":
+      const factor = (259 * (200 + 255)) / (255 * (259 - 200));
+      for (let i = 0; i < data.length; i += 4) {
+        data[i] = factor * (data[i] - 128) + 128;
+        data[i + 1] = factor * (data[i + 1] - 128) + 128;
+        data[i + 2] = factor * (data[i + 2] - 128) + 128;
+      }
+      break;
+
+    case "hue-rotate(90deg)":
+      for (let i = 0; i < data.length; i += 4) {
+        const r = data[i],
+          g = data[i + 1],
+          b = data[i + 2];
+        data[i] = g;
+        data[i + 1] = b;
+        data[i + 2] = r;
+      }
+      break;
+
+    case "invert(100%)":
+      for (let i = 0; i < data.length; i += 4) {
+        data[i] = 255 - data[i];
+        data[i + 1] = 255 - data[i + 1];
+        data[i + 2] = 255 - data[i + 2];
+      }
+      break;
+
+    case "saturate(300%)":
+      for (let i = 0; i < data.length; i += 4) {
+        const gray = 0.3 * data[i] + 0.59 * data[i + 1] + 0.11 * data[i + 2];
+        data[i] = gray + (data[i] - gray) * 3;
+        data[i + 1] = gray + (data[i + 1] - gray) * 3;
+        data[i + 2] = gray + (data[i + 2] - gray) * 3;
+      }
+      break;
+  }
+
+  return imageData;
+}
