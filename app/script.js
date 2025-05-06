@@ -43,9 +43,12 @@ document.addEventListener("DOMContentLoaded", () => {
     { name: "Cool", value: "hue-rotate(180deg) saturate(120%)" },
     {
       name: "Warm",
-      value: "hue-rotate(45deg) saturate(130%) brightness(110%)",
+      value: "hue-rotate(45deg) saturate(90%) brightness(110%)",
     },
-    { name: "Night", value: "brightness(50%) contrast(80%)" },
+    {
+      name: "Night Mode",
+      value: "brightness(80%) contrast(180%)",
+    },
   ];
 
   // Populate the dropdown
@@ -178,6 +181,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // Find the createPhotoStrip function and update it
   function createPhotoStrip() {
     photoStripContainer.innerHTML = "";
     photoStripContainer.style.display = "flex";
@@ -206,9 +210,9 @@ document.addEventListener("DOMContentLoaded", () => {
     stripCtx.fillRect(stripWidth * 0.2, 0, stripWidth * 0.6, 8);
 
     stripCtx.fillStyle = "#A52A2A";
-    stripCtx.font = 'bold 16px "Segoe UI", Arial, sans-serif';
+    stripCtx.font = 'bold 15px "Single Day", cursive';
     stripCtx.textAlign = "center";
-    stripCtx.fillText("Photobooth", stripWidth / 2, 30);
+    stripCtx.fillText("PHOTOBOOTH", stripWidth / 2, 30);
 
     const loadPhotoPromises = capturedPhotos.map((photoUrl, index) => {
       return new Promise((resolve) => {
@@ -243,26 +247,42 @@ document.addEventListener("DOMContentLoaded", () => {
     Promise.all(loadPhotoPromises).then(() => {
       const date = new Date().toLocaleDateString();
       stripCtx.fillStyle = "#A52A2A";
-      stripCtx.font = '11px "Single Day", cursive;';
+      stripCtx.font = '11px "Single Day", cursive';
       stripCtx.fillText(date, stripWidth / 2, stripHeight - 15);
 
       const stripUrl = stripCanvas.toDataURL("image/png");
-      const photoStrip = document.createElement("div");
-      photoStrip.className = "photo-strip";
-      photoStrip.innerHTML = `
-      <div class="photo-strip-title">Photobooth Strip</div>
-      <img src="${stripUrl}" alt="Photo Strip">
-      <button id="saveStripBtn" class="btn btn-custom w-100 mt-3">Save Photo Strip</button>
-    `;
-      photoStripContainer.appendChild(photoStrip);
 
-      const saveStripBtn = document.getElementById("saveStripBtn");
-      saveStripBtn.addEventListener("click", () => {
+      // Make sure we're using the correct modal canvas reference
+      const modalCanvas = document.getElementById("stripCanvas");
+
+      // Ensure the canvas dimensions are preserved
+      modalCanvas.width = stripWidth;
+      modalCanvas.height = stripHeight;
+
+      // Get the context and clear it before drawing
+      const modalCtx = modalCanvas.getContext("2d");
+      modalCtx.clearRect(0, 0, modalCanvas.width, modalCanvas.height);
+
+      // Create a new image to ensure the content loads before showing the modal
+      const modalImg = new Image();
+      modalImg.onload = () => {
+        modalCtx.drawImage(modalImg, 0, 0);
+
+        // Initialize and show the modal after the image is fully loaded
+        const stripModal = new bootstrap.Modal(
+          document.getElementById("stripModal")
+        );
+        stripModal.show();
+      };
+      modalImg.src = stripUrl;
+
+      // Update download button logic
+      document.getElementById("downloadStripBtn").onclick = () => {
         const link = document.createElement("a");
         link.download = `photostrip_${Date.now()}.png`;
         link.href = stripUrl;
         link.click();
-      });
+      };
     });
   }
 
@@ -297,6 +317,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   initCamera();
 });
+
+function clamp(value) {
+  return Math.min(255, Math.max(0, value));
+}
 
 function applyFallbackFilter(imageData, filterType) {
   const data = imageData.data;
@@ -379,7 +403,7 @@ function applyFallbackFilter(imageData, filterType) {
     // Custom Filters
     case "vibrant":
       for (let i = 0; i < data.length; i += 4) {
-        data[i] *= 1.2; // Increase red channel
+        // Increase red channel
         data[i + 1] *= 1.2; // Increase green channel
         data[i + 2] *= 1.2; // Increase blue channel
       }
@@ -466,15 +490,14 @@ function applyFallbackFilter(imageData, filterType) {
         data[i + 1] *= 1.1; // Slightly boost green channel
       }
       break;
-
-    case "night":
-      for (let i = 0; i < data.length; i += 4) {
-        data[i] *= 0.7; // Darken red
-        data[i + 1] *= 0.7; // Darken green
-        data[i + 2] *= 0.7; // Darken blue
-      }
-      break;
   }
 
   return imageData;
 }
+
+window.addEventListener("DOMContentLoaded", () => {
+  const howToUseModal = new bootstrap.Modal(
+    document.getElementById("howToUseModal")
+  );
+  howToUseModal.show();
+});
